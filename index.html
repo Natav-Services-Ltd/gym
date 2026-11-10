@@ -300,6 +300,9 @@ nav.tabs a .dot{position:absolute;top:4px;inset-inline-start:calc(50% + 8px);wid
 .qday span{font-size:.95rem}
 .qday.c{border-color:#7a5a2a}.qday.r{opacity:.6}
 .qnote{color:#aab5c1;font-size:.9rem;text-align:center;margin:0}
+.vwrap{position:relative;width:100%;aspect-ratio:16/9;border-radius:18px;overflow:hidden;border:1.5px solid var(--glow);box-shadow:0 0 26px rgba(31,107,255,.3);background:#000}
+.vwrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.playov{position:absolute;inset-inline-end:18px;bottom:18px;width:56px;height:56px;border-radius:50%;border:1.5px solid #fff;background:rgba(31,107,255,.85);color:#fff;font-size:1.3rem;box-shadow:0 0 22px rgba(31,107,255,.7)}
 .toast{position:fixed;top:calc(12px + env(safe-area-inset-top));inset-inline:0;margin:auto;width:max-content;max-width:90%;z-index:60;background:var(--card2);border:1px solid var(--accent2);border-radius:14px;padding:10px 16px;font-weight:600}
 .empty{text-align:center;color:var(--muted);padding:20px 10px}
 @media (min-width:560px){.tiles{grid-template-columns:repeat(4,1fr)}.ex-top{grid-template-columns:180px 1fr}}
@@ -936,7 +939,7 @@ function vWorkout(){const a=S.active;if(!a)return `<div class="top"><h1>אימו
   h+=`<article class="card ex"><div class="ex-top"><button class="figbtn" data-act="exinfo" data-ex="${ex.id}" aria-label="הגדל הדגמה של ${esc(ex.he)}">${figSVG(ex.p)}</button><div style="display:flex;flex-direction:column;gap:6px"><h3>${i+1}. ${esc(ex.he)}</h3><div class="small muted">${esc(ex.mus)}</div><div class="tags">${ex.eq.map(q=>`<span class="tag">${EQ[q]}</span>`).join('')}<span class="tag">מנוחה ${it.rest} שנ׳</span></div>${it.tech?`<div class="small" style="color:#ffb15e;border:1px solid #7a4a1c;background:#2a1806;border-radius:12px;padding:6px 10px">⚡ <b>${it.tech.he}:</b> ${esc(it.tech.d)}</div>`:''}
    <span class="rec ${it.rec.kind==='first'?'first':it.rec.kind==='down'?'down':''}" ${it.rec.kind==='ai'?'style="background:#08203f;color:#9fd2ff;border-color:#2a5fb0"':''}>${it.rec.kind==='up'?'▲':it.rec.kind==='down'?'▼':it.rec.kind==='first'?'●':it.rec.kind==='ai'?'✦':'='} ${esc(it.rec.why)}</span></div></div>
    <details class="how"><summary>איך לבצע נכון</summary><ol>${ex.cues.map(c=>`<li>${esc(c)}</li>`).join('')}</ol><div class="warn small" style="margin-top:8px">טעויות נפוצות: ${ex.err.map(esc).join(' · ')}</div>
-   <div class="row" style="margin-top:10px"><a class="btn sm" href="https://www.youtube.com/results?search_query=${encodeURIComponent(ex.en+' proper form')}" target="_blank" rel="noopener">▶ סרטון הדגמה</a>${vid?`<a class="btn sm" href="${esc(vid)}" target="_blank" rel="noopener">▶ הסרטון שלי</a>`:''}<button class="btn sm ghost" data-act="exinfo" data-ex="${ex.id}">היסטוריה ופרטים</button></div></details>
+   <div class="row" style="margin-top:10px">${videoBtn(ex)}<button class="btn sm ghost" data-act="exinfo" data-ex="${ex.id}">היסטוריה ופרטים</button></div></details>
    <div class="sets">${it.sets.map((s,j)=>`<div class="set ${s.done?'done':''}"><span class="sn">${j+1}</span><span class="tg">יעד<br>${s.tw?fmtW(s.tw)+'×':''}${s.tr||it.range[1]}</span>
     <label class="fld"><input id="w-${i}-${j}" inputmode="decimal" data-f="w" data-i="${i}" data-s="${j}" value="${fmtW(s.w)}" placeholder="${ex.type==='w'?'–':'0'}" aria-label="משקל סט ${j+1}"><span>ק״ג</span></label>
     <label class="fld"><input id="r-${i}-${j}" inputmode="numeric" data-f="r" data-i="${i}" data-s="${j}" value="${s.r}" placeholder="${s.tr||it.range[1]}" aria-label="${unit} סט ${j+1}"><span>${unit}</span></label>
@@ -1132,6 +1135,22 @@ function qAct(A,v){const a=Q.a;const tg=(arr,x)=>arr.includes(x)?arr.filter(y=>y
  else if(A==='qsave'){S.settings.plan=buildPlan(a);S.settings.goal=a.goal==='cut'?'endure':'hyper';S.settings.dur=a.dur===60?60:a.dur;S.settings.level=a.level;S.settings.q=JSON.parse(JSON.stringify(a));saveSettings();UI.draft=null;UI.selDay=null;closeQ();go('today');toast('התוכנית נשמרה');return;}
  const y=$('.qwrap')?$('.qwrap').scrollTop:0;renderQ();if(Q.step===Number(Q.step)&&A!=='qnext'&&A!=='qback'){$('.qwrap').scrollTop=y;}else $('.qwrap').scrollTop=0;}
 
+/* ===================== IN-APP VIDEO ===================== */
+// First YouTube search result for "<exercise> proper form"
+const VID={'db-bench':'5Y3VZsLb1Ys','mt-pulldown':'EfvPfLOuC3Y'};
+const CAN_EMBED=!window.claude; // Claude's viewer blocks third-party iframes; the website allows them
+function ytId(u){if(!u)return null;const m=String(u).match(/(?:youtu\.be\/|v=|\/shorts\/|\/embed\/)([A-Za-z0-9_-]{11})/);return m?m[1]:null;}
+function videoOf(id){const own=ytId(S.settings.videos[id]);return own||VID[id]||null;}
+const ytSearch=ex=>'https://www.youtube.com/results?search_query='+encodeURIComponent(ex.en+' proper form');
+function videoBtn(ex,cls){const v=videoOf(ex.id);if(v&&CAN_EMBED)return `<button class="btn ${cls||'sm'} primary" data-act="video" data-ex="${ex.id}">▶ סרטון הדגמה</button>`;
+ return `<a class="btn ${cls||'sm'}${v?' primary':''}" href="${v?'https://www.youtube.com/watch?v='+v:ytSearch(ex)}" target="_blank" rel="noopener">▶ ${v?'סרטון הדגמה':'חיפוש סרטון ביוטיוב'}</a>`;}
+function openVideo(id){const ex=EXM[id];const v=videoOf(id);if(!v)return;
+ openSheet(`<div class="sh-top"><h1 style="font-size:1.5rem">${esc(ex.he)}</h1><button class="pillbtn" data-act="closesheet">סגור</button></div>
+ <div class="vwrap"><iframe src="https://www.youtube-nocookie.com/embed/${v}?autoplay=1&playsinline=1&rel=0&modestbranding=1" title="סרטון הדגמה: ${esc(ex.he)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+ <div class="row"><a class="btn sm" href="https://www.youtube.com/watch?v=${v}" target="_blank" rel="noopener">פתח ביוטיוב</a><a class="btn sm ghost" href="${ytSearch(ex)}" target="_blank" rel="noopener">סרטונים נוספים</a></div>
+ <section class="card"><div class="label">איך לבצע נכון</div><ol style="margin:0;padding-inline-start:20px">${ex.cues.map(c=>`<li>${esc(c)}</li>`).join('')}</ol></section>
+ <p class="small muted" style="margin:0">${S.settings.videos[id]?'הסרטון שבחרת לתרגיל הזה.':'הסרטון הראשון בחיפוש ביוטיוב. אפשר להחליף אותו בקישור משלך במסך התרגיל.'}</p>`,'full');}
+
 /* ===================== SHEETS ===================== */
 function openSheet(html,cls){$('#sheet').innerHTML=`<div class="sheet" data-act="closesheet"><div class="panel ${cls||''}" role="dialog" aria-modal="true" data-stop="1">${html}</div></div>`;registerFigs($('#sheet'));const f=$('#sheet input,#sheet button');}
 function closeSheet(){$('#sheet').innerHTML='';UI.sheetEx=null;}
@@ -1140,12 +1159,12 @@ function exInfo(id){UI.sheetEx=id;const ex=EXM[id];const ps=perfs(id).slice(0,6)
  const keep=$('#sheet .panel');const sc=keep?keep.scrollTop:0;
  openSheet(`<div class="sh-top"><h1>${esc(ex.he)}</h1><button class="pillbtn" data-act="closesheet">חזרה</button></div>
  ${ex.custom?`<button class="btn sm ghost" data-act="editex" data-id="${id}">ערוך תרגיל משלי</button>`:''}<div class="two"><button class="btn ${fav?'on':''}" data-act="fav" data-ex="${id}" aria-pressed="${fav}">${fav?'במועדפים ★':'שמור במועדפים ☆'}</button><button class="btn" data-act="share" data-ex="${id}">שיתוף</button></div>
- <div class="media">${figSVG(ex.p,'',true)}<div class="cap"><span>מבט תרגיל</span><b>${esc(ex.he)}</b></div></div>
+ <div class="media">${figSVG(ex.p,'',true)}<div class="cap"><span>מבט תרגיל</span><b>${esc(ex.he)}</b></div>${videoOf(ex.id)&&CAN_EMBED?`<button class="playov" data-act="video" data-ex="${ex.id}" aria-label="נגן סרטון הדגמה">▶</button>`:''}</div>
  <div class="figctl"><div><div class="phase" id="figphase">&nbsp;</div><div class="small muted num" id="figrep">חזרה 1</div></div><button class="btn sm" data-act="figplay" id="figplay">השהה</button><button class="btn sm" data-act="figspeed" id="figspeed">מהירות 1×</button><div class="ibar" aria-hidden="true"><i id="figbar"></i></div></div>
  <section class="card"><div class="label">שרירים פעילים</div>${bodyMap(targetColor(ex.mu[0],ex.mu[1]))}<div class="mlist">${ex.mu[0].map(m=>`<span class="mchip r">${MUS[m]}</span>`).join('')}${ex.mu[1].map(m=>`<span class="mchip a">${MUS[m]} (משני)</span>`).join('')}</div></section>
  <section class="card"><div class="label">איך לבצע נכון</div><p class="lead">${ex.cues.map(esc).join('. ')}.</p><div class="warn small">טעויות נפוצות: ${ex.err.map(esc).join(' · ')}</div>
   <div class="tags"><span class="tag">${AREA_HE[ex.a]}</span>${ex.eq.map(q=>`<span class="tag">${EQ[q]}</span>`).join('')}<span class="tag">${esc(ex.mus)}</span></div>
-  <div class="row"><a class="btn sm primary" href="https://www.youtube.com/results?search_query=${encodeURIComponent(ex.en+' proper form')}" target="_blank" rel="noopener">▶ סרטוני הדגמה</a>${vid?`<a class="btn sm" href="${esc(vid)}" target="_blank" rel="noopener">▶ הסרטון שלי</a>`:''}</div>
+  <div class="row">${videoBtn(ex)}${videoOf(ex.id)?`<a class="btn sm ghost" href="${ytSearch(ex)}" target="_blank" rel="noopener">סרטונים נוספים</a>`:''}</div>
   <p class="small muted" style="margin:0">כתום = השריר שעובד. קו מקווקו = מסלול התנועה.</p></section>
  <section class="card"><div class="seg"><button data-act="xmetric" data-m="vol" aria-pressed="${UI.metric==='vol'}">מגמת נפח</button><button data-act="xmetric" data-m="1rm" aria-pressed="${UI.metric==='1rm'}">מגמת 1RM</button></div>
   <div class="seg">${[90,28,7].map(v=>`<button data-act="xrange" data-v="${v}" aria-pressed="${UI.range===v}">${v}D</button>`).join('')}</div>
@@ -1223,6 +1242,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(
  case 'restx':UI.rest=null;renderRest();break;
  case 'exinfo':exInfo(t.dataset.ex);break;
  case 'openq':openQ();break;
+ case 'video':openVideo(t.dataset.ex);break;
  case 'mm':{UI.mm=UI.mm||{period:'last'};const m=t.dataset.m;UI.mm.sel=UI.mm.sel===m?null:m;renderMM();break;}
  case 'mmgrp':{UI.mm=UI.mm||{period:'last'};const g='g:'+t.dataset.v;UI.mm.sel=UI.mm.sel===g?null:g;renderMM();break;}
  case 'mmper':UI.mm=UI.mm||{};UI.mm.period=t.dataset.v;renderMM();break;
