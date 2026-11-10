@@ -213,13 +213,12 @@ nav.tabs a .dot{position:absolute;top:4px;inset-inline-start:calc(50% + 8px);wid
 .media .cap span{font-size:.82rem;color:#c9d7ff}
 .media .cap b{font-family:var(--display);font-size:1.35rem;font-weight:800}
 .lead{margin:0;font-size:1.02rem;line-height:1.75}
-.bmap{display:grid;grid-template-columns:1fr 1fr;gap:6px;max-width:340px;margin:0 auto;width:100%}
+.bmap{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:320px;margin:4px auto 0;width:100%;padding:14px 10px 10px;border-radius:20px;background:radial-gradient(70% 60% at 50% 40%,rgba(47,123,255,.14),transparent 70%)}
 .bmap figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:2px}
 .bmap svg{width:100%;height:auto}
-.bmap figcaption{font-size:.75rem;color:var(--muted)}
-.bm-sil{fill:#0d1424;stroke:#22304d;stroke-width:1}
-.bm-m{fill:#1a2440;stroke:#2b3a5e;stroke-width:.8}
-.bm-on{filter:url(#glw)}
+.bmap figcaption{font-size:.72rem;color:#c9d6f5;letter-spacing:.02em;border:1px solid #23396f;background:rgba(10,20,46,.7);border-radius:999px;padding:2px 12px;margin-top:6px}
+.bm-m{fill:#24324f;stroke:#33477a;stroke-width:.7;stroke-linejoin:round}
+.bm-act{filter:url(#bmGlow);stroke:rgba(255,255,255,.35);stroke-width:.6;stroke-linejoin:round}
 .mlist{display:flex;flex-wrap:wrap;gap:6px}
 .mchip{font-size:.8rem;border-radius:999px;padding:3px 10px;border:1px solid}
 .mchip.r{color:#ff8a80;border-color:#7a1f1a;background:#2a0a0a}
@@ -247,7 +246,7 @@ nav.tabs a .dot{position:absolute;top:4px;inset-inline-start:calc(50% + 8px);wid
 .qb.mus>span:first-child{overflow:hidden;text-overflow:ellipsis}
 .qb .mi{width:30px;height:30px;border-radius:50%;background:#1a2129;border:1.5px solid #5a6573;flex:none;overflow:hidden;display:grid;place-items:center}
 .qb[aria-pressed="true"] .mi{border-color:#9be7f5}
-.qb .mi svg{width:24px;height:24px}
+.qb .mi svg{width:30px;height:30px}
 .qdots{display:flex;justify-content:center;gap:8px;margin-top:2px}
 .qdots i{width:8px;height:8px;border-radius:50%;background:#6a7480}.qdots i.on{background:#f2f5f8}
 .qcta{width:100%;max-width:440px;border:1.5px solid #3cc4de;background:linear-gradient(180deg,#22a6c2,#1786a1);color:#eafcff;border-radius:22px;min-height:66px;font-size:1.6rem;font-weight:700;font-family:inherit;box-shadow:0 10px 30px rgba(23,134,161,.35)}
@@ -270,6 +269,12 @@ nav.tabs a .dot{position:absolute;top:4px;inset-inline-start:calc(50% + 8px);wid
 <linearGradient id="gSk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eef1f6"/><stop offset=".55" stop-color="#c3c9d4"/><stop offset="1" stop-color="#8b94a6"/></linearGradient>
 <linearGradient id="gSkF" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8f98aa"/><stop offset="1" stop-color="#596274"/></linearGradient>
 <linearGradient id="gMu" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7a52"/><stop offset=".5" stop-color="#ff3b30"/><stop offset="1" stop-color="#c1121f"/></linearGradient>
+<linearGradient id="bmBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c2944"/><stop offset="1" stop-color="#0e1628"/></linearGradient>
+<linearGradient id="bmPri" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7a59"/><stop offset=".55" stop-color="#ff3b3b"/><stop offset="1" stop-color="#d4145a"/></linearGradient>
+<linearGradient id="bmSec" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffc56b"/><stop offset="1" stop-color="#ff8a3d"/></linearGradient>
+<linearGradient id="bmOk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6ff0b4"/><stop offset="1" stop-color="#1fb978"/></linearGradient>
+<linearGradient id="bmSheen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".28"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="bmGlow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
 <filter id="glw" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
 </defs></svg>
 <main class="wrap" id="app"></main>
@@ -470,13 +475,21 @@ const BM_SIL=(()=>{const C=(a,b,r1,r2)=>`<path class="bm-sil" d="${capsule(a,b,r
  return side(false)+side(true)+'<path class="bm-sil" d="M38 44 Q60 37 82 44 Q90 50 88 62 L84 122 Q60 132 36 122 L32 62 Q30 50 38 44 Z"/><rect class="bm-sil" x="54" y="32" width="12" height="10"/><ellipse class="bm-sil" cx="60" cy="22" rx="12" ry="14"/>';})();
 const BM={front:[['delts_f delts_s','e',33,57,8,9,0,1],['chest','p','M60 50 Q47 47 40 57 Q41 73 59 72 Z',1],['biceps','e',29,82,5,12,12,1],['forearms','e',24,118,4.5,14,8,1],['abs','r',52,76,16,42,5,0],['obliques','e',45,100,5,14,0,1],['quads','e',49,160,9,26,4,1],['calves','e',46.5,212,5.5,17,0,1]],
  back:[['traps','p','M60 40 L75 50 L60 72 L45 50 Z',0],['delts_r delts_s','e',33,57,8,9,0,1],['triceps','e',29,83,5,12,12,1],['forearms','e',24,118,4.5,14,8,1],['lats','p','M45 62 Q38 86 49 112 L58 98 L57 66 Z',1],['midback','e',60,82,6.5,12,0,0],['lowback','r',52,104,16,18,5,0],['glutes','e',50,138,11,11,0,1],['hams','e',49,172,8.5,22,3,1],['calves','e',47,212,7,15,0,1]]};
-function bodyMap(colorOf){const shape=(d,mir,fill)=>{const st=fill?` style="fill:${fill}"`:'';const cl=`bm-m${fill?' bm-on':''}`;const one=(m)=>{if(d[1]==='e'){const[,, cx,cy,rx,ry,rot]=d;const x=m?120-cx:cx;return `<ellipse class="${cl}"${st} cx="${x}" cy="${cy}" rx="${rx}" ry="${ry}" transform="rotate(${m?-rot:rot} ${x} ${cy})"/>`;}
-   if(d[1]==='r'){const[,,x,y,w,h,r]=d;return `<rect class="${cl}"${st} x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}"/>`;}return `<path class="${cl}"${st} d="${d[2]}"${m?' transform="translate(120 0) scale(-1 1)"':''}/>`;};
-  return one(false)+(mir?one(true):'');};
- const side=(k,lbl)=>`<figure><svg viewBox="0 0 120 250" role="img" aria-label="${lbl}">${BM_SIL}${BM[k].map(d=>{const fill=d[0].split(' ').map(colorOf).find(Boolean);return shape(d,d[1]==='p'?d[3]:d[7],fill);}).join('')}${k==='front'?'<path d="M60 80 V114 M52 90 H68 M52 102 H68" stroke="#0d1424" stroke-width="1" fill="none"/>':''}</svg><figcaption>${lbl}</figcaption></figure>`;
- return `<div class="bmap">${side('front','מלפנים')}${side('back','מאחור')}</div>`;}
-const targetColor=(pri,sec)=>m=>pri.includes(m)?'#ff3b30':sec.includes(m)?'#ff8a5c':null;
-const recColor=rec=>m=>{const p=rec[m];return p>=95?null:p<50?'#ff3b30':p<80?'#ffa31a':'#2fd27a';};
+const BM_HALF='M100 62 L91 62 Q90 74 82 79 Q66 84 55 92 Q44 100 42 118 Q39 140 37 160 Q34 180 32 198 Q27 224 24 248 Q22 260 22 270 Q16 282 20 292 Q28 296 31 284 Q32 272 35 260 Q43 232 47 210 Q50 192 52 176 Q55 158 57 142 L59 132 Q61 160 62 182 Q64 200 62 214 Q59 228 61 240 Q58 266 61 292 Q64 318 66 340 Q63 362 66 382 L68 396 Q58 404 60 410 Q74 414 86 410 Q88 402 86 394 Q89 370 87 345 Q91 316 95 290 Q98 272 100 264 Z';
+const BMD={front:[['delts_f delts_s','M64 94 Q50 94 45 108 Q42 122 46 132 Q54 124 60 117 Q60 104 64 94 Z'],['chest','M99 92 Q80 87 65 96 Q57 108 61 122 Q78 132 99 126 Z'],['biceps','M46 137 Q42 152 42 168 Q45 181 51 184 Q56 170 56 151 Q54 139 46 137 Z'],['forearms','M41 196 Q35 216 31 240 Q30 251 34 255 Q42 236 46 214 Q48 202 44 194 Z'],
+ ['abs','M88 134 h10 a2 2 0 0 1 2 2 v15 h-14 v-15 a2 2 0 0 1 2 -2 Z M86 155 h14 v17 h-14 Z M86 176 h14 v17 h-14 Z M86 197 h14 v20 a4 4 0 0 1 -4 4 h-6 a4 4 0 0 1 -4 -4 Z'],['obliques','M83 136 Q71 140 65 150 Q64 180 67 208 Q75 214 83 212 Q81 172 83 136 Z'],['quads','M65 246 Q60 280 64 318 Q71 334 83 333 Q91 300 94 272 Q90 252 80 244 Z'],['calves','M70 352 Q66 370 70 388 L76 388 Q80 370 79 352 Z']],
+ back:[['traps','M100 64 Q88 72 72 86 Q88 98 100 134 Z'],['delts_r delts_s','M67 91 Q51 93 45 107 Q43 122 47 131 Q58 117 71 104 Z'],['triceps','M46 137 Q41 152 42 171 Q45 183 51 184 Q56 166 55 149 Q53 139 46 137 Z'],['forearms','M41 196 Q35 216 31 240 Q30 251 34 255 Q42 236 46 214 Q48 202 44 194 Z'],
+ ['lats','M73 108 Q62 130 64 162 Q70 190 88 204 Q92 176 90 150 Q86 124 73 108 Z'],['midback','M100 98 Q87 106 83 121 Q90 140 100 151 Z'],['lowback','M100 160 Q91 168 91 198 Q93 214 100 219 Z'],['glutes','M100 226 Q78 221 66 236 Q61 256 69 270 Q86 279 100 271 Z'],['hams','M67 277 Q61 302 65 330 Q73 342 84 340 Q90 310 94 283 Q84 274 67 277 Z'],['calves','M69 346 Q61 362 66 381 Q72 387 80 381 Q84 362 80 346 Z']]};
+const MIR=' transform="translate(200 0) scale(-1 1)"';
+function bodySVG(side,colorOf,small){const head=`<ellipse cx="100" cy="36" rx="17" ry="21" fill="url(#bmBody)"/>`;
+ const sil=`<path d="${BM_HALF}" fill="url(#bmBody)"/><path d="${BM_HALF}" fill="url(#bmBody)"${MIR}/>`;
+ let mus='';BMD[side].forEach(([keys,d])=>{const c=keys.split(' ').map(colorOf).find(Boolean);
+  const one=t=>c?`<path d="${d}" fill="${c}" class="bm-act"${t}/><path d="${d}" fill="url(#bmSheen)"${t} style="pointer-events:none"/>`:`<path d="${d}" class="bm-m"${t}/>`;mus+=one('')+one(MIR);});
+ const lines=side==='front'?'<path d="M100 92 V126 M100 134 V222" stroke="#0a1120" stroke-width="1.2" fill="none" opacity=".8"/>':'<path d="M100 66 V222" stroke="#0a1120" stroke-width="1.2" fill="none" opacity=".6"/>';
+ return `<svg viewBox="${typeof small==='string'?small:'12 6 176 412'}" ${small?'':`role="img" aria-label="${side==='front'?'מלפנים':'מאחור'}"`}>${head}${sil}${mus}${lines}</svg>`;}
+function bodyMap(colorOf){return `<div class="bmap"><figure>${bodySVG('front',colorOf)}<figcaption>מלפנים</figcaption></figure><figure>${bodySVG('back',colorOf)}<figcaption>מאחור</figcaption></figure></div>`;}
+const targetColor=(pri,sec)=>m=>pri.includes(m)?'url(#bmPri)':sec.includes(m)?'url(#bmSec)':null;
+const recColor=rec=>m=>{const p=rec[m];return p>=95?null:p<50?'url(#bmPri)':p<80?'url(#bmSec)':'url(#bmOk)';};
 function draftMuscles(items){const p=new Set(),q=new Set();items.forEach(id=>{const e=EXM[id];if(!e)return;e.mu[0].forEach(m=>p.add(m));e.mu[1].forEach(m=>q.add(m));});return[[...p],[...q].filter(m=>!p.has(m))];}
 const CARDIO={
  run:{he:'ריצה בחוץ',p:'run',plans:[
@@ -848,7 +861,7 @@ function vStats(){const ss=sorted();const ws=weekStart(new Date()).getTime();con
 function recCard(){const rec=recovery();const low=Object.entries(rec).filter(([,p])=>p<95).sort((a,b)=>a[1]-b[1]);
  return `<section class="card"><div class="row between"><h2>התאוששות שרירים</h2><span class="small muted">לפי האימונים של 6 הימים האחרונים</span></div>${bodyMap(recColor(rec))}
  <div class="mlist">${low.length?low.map(([m,p])=>`<span class="mchip ${recCls(p)}">${MUS[m]} ${p}%</span>`).join(''):'<span class="mchip g">כל השרירים מוכנים לאימון</span>'}</div>
- <div class="legend"><span><i style="background:#ff3b30"></i>מתחת ל-50%</span><span><i style="background:#ffa31a"></i>50–80%</span><span><i style="background:#2fd27a"></i>80–95%</span><span><i style="background:#1a2440"></i>מוכן</span></div></section>`;}
+ <div class="legend"><span><i style="background:linear-gradient(135deg,#ff7a59,#d4145a)"></i>מתחת ל-50%</span><span><i style="background:linear-gradient(135deg,#ffc56b,#ff8a3d)"></i>50–80%</span><span><i style="background:linear-gradient(135deg,#6ff0b4,#1fb978)"></i>80–95%</span><span><i style="background:#24324f"></i>מוכן</span></div></section>`;}
 function series(exId,metric,days){const since=Date.now()-days*864e5;return perfs(exId).filter(p=>(p.start||0)>=since).reverse().map(p=>({d:p.date,v:metric==='vol'?p.sets.reduce((a,s)=>a+(+s.w||0)*(+s.r||0),0)||p.sets.reduce((a,s)=>a+(+s.r||0),0):Math.max(...p.sets.map(s=>e1rm(+s.w||0,+s.r||0)))||Math.max(...p.sets.map(s=>+s.r||0))}));}
 function progChart(exId,metric,days){const sr=series(exId,metric,days);const unit=metric==='vol'?'נפח (ק״ג)':'1RM מוערך (ק״ג)';
  if(!sr.length)return `<p class="empty" style="margin:0">אין רישומים לתרגיל הזה ב-${days} הימים האחרונים.</p>`;
@@ -954,10 +967,7 @@ async function aiFill(){const name=$('#x-he').value.trim();const out=$('#x-ai');
 /* ===================== PLAN QUESTIONNAIRE ===================== */
 const Q={open:false,step:0,a:null};
 const QFOCUS=[['chest','חזה',['chest'],'f'],['shoulders','כתפיים',['delts_f','delts_s'],'f'],['arms','ידיים',['biceps','forearms'],'f'],['core','בטן',['abs','obliques'],'f'],['back','גב',['lats','midback','traps'],'b'],['legs','רגליים',['quads','hams','glutes'],'f']];
-function miniBody(mus,side){const col=m=>mus.includes(m)?'#ff5a3c':null;const d=BM[side==='b'?'back':'front'];
- let h=`<svg viewBox="20 30 80 120" aria-hidden="true">${BM_SIL.replace(/class="bm-sil"/g,'fill="#4b5563"')}`;
- d.forEach(x=>{const fill=x[0].split(' ').map(col).find(Boolean)||'#5b6574';const mir=x[1]==='p'?x[3]:x[7];const one=m=>{if(x[1]==='e'){const[,,cx,cy,rx,ry,rot]=x;const X=m?120-cx:cx;return `<ellipse fill="${fill}" cx="${X}" cy="${cy}" rx="${rx}" ry="${ry}" transform="rotate(${m?-rot:rot} ${X} ${cy})"/>`;}if(x[1]==='r'){const[,,X,y,w,hh,r]=x;return `<rect fill="${fill}" x="${X}" y="${y}" width="${w}" height="${hh}" rx="${r}"/>`;}return `<path fill="${fill}" d="${x[2]}"${m?' transform="translate(120 0) scale(-1 1)"':''}/>`;};h+=one(false)+(mir?one(true):'');});
- return h+'</svg>';}
+function miniBody(mus,side){const vb=mus.includes('quads')?'40 230 120 140':mus.includes('abs')?'50 110 100 100':mus.includes('biceps')?'22 84 156 120':'34 50 132 120';return bodySVG(side==='b'?'back':'front',m=>mus.includes(m)?'url(#bmPri)':null,vb);}
 function qDefaults(){const p=S.settings.q;return p?JSON.parse(JSON.stringify(p)):{level:'mid',cardio:3,ckinds:['run','tread','spin'],goal:S.settings.goal==='endure'?'cut':'build',days:3,dur:+S.settings.dur>=60?60:+S.settings.dur<=30?30:45,focus:['chest','back','shoulders'],split:'auto'};}
 function openQ(){Q.open=true;Q.step=0;Q.a=qDefaults();renderQ();}
 function closeQ(){Q.open=false;$('#qz').innerHTML='';}
