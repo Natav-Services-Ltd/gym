@@ -137,7 +137,7 @@ const MORE=[
  X('mt-pd-rev','פולי עליון אחיזה הפוכה','reverse grip lat pulldown','back','c',['mt'],'pulldown','w','רחב גבי, יד קדמית',['כפות ידיים כלפיך, ברוחב כתפיים','משוך לחזה העליון','הורד שכמות למטה'],['משיכה בידיים בלבד','נטייה לאחור'],[['lats','biceps'],['midback']]),
  X('mt-row-wide','חתירה בכבל אחיזה רחבה','wide grip seated cable row','back','c',['mt'],'crow','w','גב עליון, כתף אחורית',['מוט רחב, מרפקים בגובה הכתפיים','משוך לחזה העליון','לחץ שכמות'],['הרמת כתפיים','עיגול גב'],[['midback','delts_r'],['traps','biceps']]),
  X('db-bentrow','חתירה בהטיה בשתי ידיים','bent over dumbbell row','back','c',['db'],'bentrow','w','רחב גבי, גב אמצעי',['הטיה של 45° עם גב ישר','משוך את המשקולות למותניים','הורד לאט'],['עיגול גב','קימה עם כל חזרה'],[['lats','midback'],['biceps','lowback']]),
- X('db-csrow','חתירה בשכיבה על ספסל משופע','chest supported dumbbell row','back','c',['bench','db'],'bentrow','w','גב אמצעי',['שכב על הבטן על ספסל ב-30°','משוך משקולות למותניים','לחץ שכמות בשיא'],['הרמת החזה מהספסל','משיכה בכתפיים'],[['midback','lats'],['delts_r','biceps']]),
+ X('db-csrow','חתירה בשכיבה על ספסל משופע','chest supported dumbbell row','back','c',['bench','db'],'csrow','w','גב אמצעי',['שכב על הבטן על ספסל ב-30°','משוך משקולות למותניים','לחץ שכמות בשיא'],['הרמת החזה מהספסל','משיכה בכתפיים'],[['midback','lats'],['delts_r','biceps']]),
  X('superman','סופרמן','superman exercise','back','i',['bw'],'superman','bw','גב תחתון, ישבן',['שכב על הבטן, ידיים קדימה','הרם ידיים ורגליים יחד','החזק שנייה ורד'],['הרמת הראש למעלה','תנועה מהירה'],[['lowback'],['glutes','hams']]),
  X('db-shrug','משיכות כתפיים','dumbbell shrug','back','i',['db'],'shrug','w','טרפז',['עמוד זקוף, משקולות לצד הגוף','הרם כתפיים לאוזניים','החזק שנייה ורד לאט'],['גלגול כתפיים','כיפוף מרפקים'],[['traps'],['forearms']]),
  X('db-arnold','לחיצת ארנולד','arnold press','shoulders','c',['bench','db'],'ohp','w','כתפיים',['התחל עם כפות ידיים כלפיך מול הפנים','סובב החוצה תוך כדי דחיפה','חזור באותו מסלול'],['קשת בגב','תנועה מהירה'],[['delts_f','delts_s'],['triceps']]),
@@ -332,7 +332,7 @@ const PATS={
  mountain:{props:FLOOR,hold:'none',A:{hip:[120,136],torso:-24,a1:90,f1:90,a2:92,f2:92,t1:30,s1:150,t2:158,s2:158,ft1:60,ft2:60},B:{hip:[120,136],torso:-24,a1:90,f1:90,a2:92,f2:92,t1:158,s1:158,t2:30,s2:150,ft1:60,ft2:60},per:0.9},
  pulldown:{props:FLOOR+seatBack(105)+tower(150,[128,10]),anc:[[128,12]],hold:'cable',A:m(SIT,{a1:-76,f1:-80,a2:-80,f2:-84}),B:m(SIT,{a1:100,f1:-70,a2:104,f2:-66})},
  crow:{props:FLOOR+'<rect class="pr" x="45" y="155" width="60" height="6" rx="2"/><line class="prs" x1="160" y1="132" x2="162" y2="168"/>'+tower(214,[205,140]),anc:[[205,140]],hold:'cable',A:{hip:[80,150],torso:-72,a1:0,f1:-2,a2:2,f2:0,t1:-6,s1:8,t2:-8,s2:10},B:{hip:[80,150],torso:-95,a1:150,f1:-5,a2:146,f2:-3,t1:-6,s1:8,t2:-8,s2:10}},
- dbrow:{props:FLOOR+bench(50,165,146),hold:'db1',A:{hip:[90,104],torso:-15,a1:90,f1:90,a2:88,f2:92,t1:80,s1:180,t2:100,s2:86},B:{hip:[90,104],torso:-15,a1:-158,f1:82,a2:88,f2:92,t1:80,s1:180,t2:100,s2:86}},
+ dbrow:{props:FLOOR+bench(50,165,146),hold:'db1',A:{hip:[90,104],torso:-15,a1:90,f1:90,a2:88,f2:92,t1:80,s1:180,t2:100,s2:86},B:{hip:[90,104],torso:-15,a1:202,f1:82,a2:88,f2:92,t1:80,s1:180,t2:100,s2:86}},
  straight:{props:FLOOR+tower(196,[176,10]),anc:[[176,12]],hold:'cable',A:m(ST,{torso:-80,a1:-45,f1:-45,a2:-48,f2:-48}),B:m(ST,{torso:-80,a1:75,f1:75,a2:78,f2:78})},
  facepull:{props:FLOOR+tower(206,[190,52]),anc:[[194,52]],hold:'cable',A:m(ST,{a1:-8,f1:-6,a2:-6,f2:-4}),B:m(ST,{a1:-170,f1:-20,a2:-168,f2:-24})},
  pushdown:{props:FLOOR+tower(176,[152,10]),anc:[[152,12]],hold:'cable',A:m(ST,{torso:-86,a1:98,f1:-40,a2:96,f2:-38}),B:m(ST,{torso:-86,a1:94,f1:88,a2:92,f2:86})},
@@ -342,7 +342,7 @@ const PATS={
  front:{props:FLOOR,hold:'db2',A:m(ST,{a1:88,f1:85,a2:90,f2:88}),B:m(ST,{a1:-5,f1:-8,a2:-2,f2:-5})},
  rear:{props:FLOOR,hold:'db2',A:m(BENT,{a1:90,f1:90,a2:88,f2:88}),B:m(BENT,{a1:200,f1:195,a2:196,f2:192})},
  curl:{props:FLOOR,hold:'db2',A:m(ST),B:m(ST,{a1:96,f1:-62,a2:94,f2:-58})},
- overhead:{props:FLOOR,hold:'dbc',A:m(ST,{a1:-100,f1:110,a2:-98,f2:112}),B:m(ST,{a1:-100,f1:-98,a2:-98,f2:-96})},
+ overhead:{props:FLOOR,hold:'dbc',A:m(ST,{a1:-100,f1:110,a2:-98,f2:112}),B:m(ST,{a1:-100,f1:262,a2:-98,f2:264})},
  kickback:{props:FLOOR,hold:'db1',A:{hip:[100,100],torso:-20,a1:165,f1:95,a2:95,f2:60,t1:80,s1:96,t2:100,s2:88},B:{hip:[100,100],torso:-20,a1:165,f1:172,a2:95,f2:60,t1:80,s1:96,t2:100,s2:88}},
  squat:{props:FLOOR,hold:'dbc',A:{hip:[120,96],torso:-88,a1:70,f1:-115,a2:74,f2:-112,t1:90,s1:90,t2:88,s2:92},B:{hip:[100,135],torso:-68,a1:70,f1:-110,a2:74,f2:-108,t1:15,s1:123,t2:18,s2:120}},
  lunge:{props:FLOOR,hold:'db2',A:{hip:[120,98],torso:-90,a1:90,f1:90,a2:92,f2:92,t1:75,s1:105,t2:110,s2:120,ft1:0,ft2:20},B:{hip:[120,130],torso:-90,a1:90,f1:90,a2:92,f2:92,t1:10,s1:95,t2:110,s2:175,ft1:0,ft2:10}},
@@ -350,7 +350,7 @@ const PATS={
  stepup:{props:FLOOR+'<rect class="pr" x="132" y="140" width="66" height="31" rx="3"/>',hold:'db2',A:{hip:[115,96],torso:-88,a1:90,f1:90,a2:92,f2:92,t1:15,s1:100,t2:92,s2:92},B:{hip:[150,66],torso:-90,a1:90,f1:90,a2:92,f2:92,t1:90,s1:90,t2:100,s2:120}},
  rdl:{props:FLOOR,hold:'db2',A:m(ST,{hip:[112,96]}),B:{hip:[108,100],torso:-18,a1:90,f1:90,a2:92,f2:92,t1:82,s1:94,t2:84,s2:92}},
  legext:{props:FLOOR+'<rect class="pr" x="66" y="128" width="78" height="6" rx="2"/><line class="prs" x1="105" y1="134" x2="105" y2="170"/><line class="prs" x1="90" y1="130" x2="79" y2="72"/>',hold:'none',A:{hip:[100,124],torso:-100,a1:95,f1:40,a2:92,f2:44,t1:0,s1:90,t2:-3,s2:88},B:{hip:[100,124],torso:-100,a1:95,f1:40,a2:92,f2:44,t1:0,s1:6,t2:-3,s2:4}},
- legcurl:{props:FLOOR+bench(45,185,127),hold:'none',A:{hip:[110,122],torso:0,a1:95,f1:0,a2:92,f2:2,t1:180,s1:180,t2:178,s2:178,ft1:90,ft2:90},B:{hip:[110,122],torso:0,a1:95,f1:0,a2:92,f2:2,t1:180,s1:-85,t2:178,s2:-80,ft1:0,ft2:0}},
+ legcurl:{props:FLOOR+bench(45,185,127),hold:'none',A:{hip:[110,122],torso:0,a1:95,f1:0,a2:92,f2:2,t1:180,s1:180,t2:178,s2:178,ft1:90,ft2:90},B:{hip:[110,122],torso:0,a1:95,f1:0,a2:92,f2:2,t1:180,s1:275,t2:178,s2:280,ft1:0,ft2:0}},
  calf:{props:FLOOR,hold:'db2',A:m(ST,{ft1:0,ft2:0}),B:m(ST,{hip:[120,88],ft1:35,ft2:35})},
  bridge:{props:FLOOR,hold:'dbhip',A:{hip:[112,164],torso:182,a1:-2,f1:0,a2:0,f2:2,t1:-40,s1:75,t2:-38,s2:77},B:{hip:[112,136],torso:152,a1:10,f1:5,a2:12,f2:7,t1:-8,s1:92,t2:-6,s2:94}},
  crunch:{props:FLOOR,hold:'none',A:{hip:[120,162],torso:180,a1:10,f1:0,a2:8,f2:2,t1:-45,s1:65,t2:-42,s2:68},B:{hip:[120,162],torso:210,a1:-5,f1:-10,a2:-7,f2:-12,t1:-45,s1:65,t2:-42,s2:68}},
@@ -362,7 +362,8 @@ const PATS={
  run:{props:'<line class="gr" x1="10" y1="171" x2="230" y2="171"/>',hold:'none',A:RUNA,B:RUNB,per:0.75,belt:true}
 };
 Object.assign(PATS,{
- bentrow:{props:FLOOR,hold:'db2',A:m(BENT,{a1:90,f1:90,a2:88,f2:88}),B:m(BENT,{a1:-160,f1:82,a2:-156,f2:84})},
+ bentrow:{props:FLOOR,hold:'db2',A:m(BENT,{a1:90,f1:90,a2:88,f2:88}),B:m(BENT,{a1:200,f1:82,a2:204,f2:84})},
+ csrow:{props:FLOOR+'<line class="prs" x1="98" y1="113" x2="166" y2="89" style="stroke-width:7"/><line class="prs" x1="124" y1="108" x2="124" y2="170"/>',hold:'db2',A:m(BENT,{a1:90,f1:90,a2:88,f2:88}),B:m(BENT,{a1:200,f1:82,a2:204,f2:84})},
  superman:{props:FLOOR,hold:'none',A:{hip:[118,163],torso:0,a1:2,f1:0,a2:0,f2:2,t1:180,s1:180,t2:182,s2:182,ft1:90,ft2:90},B:{hip:[118,162],torso:-12,a1:-14,f1:-16,a2:-12,f2:-14,t1:170,s1:172,t2:172,s2:174,ft1:80,ft2:80}},
  shrug:{props:FLOOR,hold:'db2',A:m(ST,{sh:0}),B:m(ST,{sh:7})},
  upright:{props:FLOOR,hold:'db2',A:m(FR,{a1:98,f1:96,a2:82,f2:84}),B:m(FR,{a1:-160,f1:40,a2:-20,f2:140})},
@@ -395,7 +396,7 @@ const pts=a=>a.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ');
 const NS='http://www.w3.org/2000/svg';
 const ECCF=['squat','lunge','bulgarian','rdl','pushup','fly','pullover','skull','dip'];
 const CYC=['run','tread','mountain','twist','plank','cycle','wallsit','bicycle','hollow'];
-const HL={press:['chest'],incline:['chest'],fly:['chest'],pullover:['chest'],mpress:['chest'],cross:['chest'],pushup:['chest'],pulldown:['upper'],crow:['upper'],dbrow:['upper'],straight:['upper'],facepull:['delt'],rear:['delt'],lateral:['delt'],front:['delt'],ohp:['delt'],curl:['ua'],ccurl:['ua'],pushdown:['ua'],overhead:['ua'],kickback:['ua'],squat:['th','glute'],lunge:['th','glute'],bulgarian:['th','glute'],stepup:['th','glute'],legext:['th'],legcurl:['th'],rdl:['glute','th'],bridge:['glute','th'],calf:['shin'],crunch:['abs'],legraise:['abs'],twist:['abs'],ccrunch:['abs'],plank:['abs'],mountain:['abs'],cycle:['th'],run:['th','shin'],tread:['th','shin'],bentrow:['upper'],superman:['abs','glute'],shrug:['upper'],upright:['delt'],skull:['ua'],dip:['ua'],wallsit:['th'],calfseat:['shin'],kickglute:['glute'],deadbug:['abs'],bicycle:['abs'],woodchop:['abs'],hollow:['abs'],revcrunch:['abs']};
+const HL={press:['chest'],incline:['chest'],fly:['chest'],pullover:['chest'],mpress:['chest'],cross:['chest'],pushup:['chest'],pulldown:['upper'],crow:['upper'],dbrow:['upper'],straight:['upper'],facepull:['delt'],rear:['delt'],lateral:['delt'],front:['delt'],ohp:['delt'],curl:['ua'],ccurl:['ua'],pushdown:['ua'],overhead:['ua'],kickback:['ua'],squat:['th','glute'],lunge:['th','glute'],bulgarian:['th','glute'],stepup:['th','glute'],legext:['th'],legcurl:['th'],rdl:['glute','th'],bridge:['glute','th'],calf:['shin'],crunch:['abs'],legraise:['abs'],twist:['abs'],ccrunch:['abs'],plank:['abs'],mountain:['abs'],cycle:['th'],run:['th','shin'],tread:['th','shin'],bentrow:['upper'],csrow:['upper'],superman:['abs','glute'],shrug:['upper'],upright:['delt'],skull:['ua'],dip:['ua'],wallsit:['th'],calfseat:['shin'],kickglute:['glute'],deadbug:['abs'],bicycle:['abs'],woodchop:['abs'],hollow:['abs'],revcrunch:['abs']};
 const TRAIL={squat:'hip',lunge:'hip',bulgarian:'hip',stepup:'hip',bridge:'hip',calf:'hip',rdl:'s',legext:'an1',legcurl:'an1',legraise:'an1',crunch:'s',pushup:'s',ccrunch:'s'};
 const PHASE_HE={con:'כיווץ · נשיפה',hold:'החזקה בשיא הכיווץ',ecc:'ירידה מבוקרת · שאיפה',pause:'מתיחה בתחתית',cyc:'קצב רציף',iso:'החזקה · נשימה רגילה'};
 const ease=x=>0.5-0.5*Math.cos(Math.PI*Math.min(1,Math.max(0,x)));
@@ -798,7 +799,7 @@ async function aiAsk(q){if(!SAMPLE||!q.trim()||COACH.busy)return;COACH.chat.push
  catch(e){bub.textContent=(e&&e.text)||aiMsg(e)||'נעצר.';if(e&&e.text)COACH.chat.push({role:'assistant',content:e.text});}
  COACH.busy=false;const sb=$('#chatsend');if(sb)sb.disabled=false;}
 
-function exForm(c){c=c||{};const pats=[['press','לחיצה בשכיבה'],['incline','לחיצה בשיפוע'],['fly','פרפר'],['mpress','לחיצה במכונה'],['cross','קרוס אובר'],['pushup','שכיבות סמיכה'],['pulldown','משיכה מלמעלה'],['crow','חתירה בכבל'],['dbrow','חתירה ביד אחת'],['bentrow','חתירה בהטיה'],['ohp','לחיצת כתפיים'],['lateral','הרחקה לצדדים'],['front','הרמה קדמית'],['upright','חתירה אנכית'],['shrug','משיכות כתפיים'],['curl','כפיפת מרפקים'],['ccurl','כפיפה בכבל'],['pushdown','פשיטה בכבל'],['overhead','פשיטה מעל הראש'],['skull','סקל קראשר'],['kickback','קיקבק'],['dip','מקבילים'],['squat','סקוואט'],['lunge','לאנג׳'],['bulgarian','בולגרי'],['stepup','עלייה על ספסל'],['rdl','דדליפט רומני'],['bridge','גשר ישבן'],['legext','פשיטת ברכיים'],['legcurl','כפיפת ברכיים'],['calf','תאומים'],['kickglute','בעיטת ישבן'],['crunch','כפיפות בטן'],['legraise','הרמות רגליים'],['plank','פלאנק'],['twist','טוויסט'],['woodchop','חוטב עצים'],['deadbug','דד באג']];
+function exForm(c){c=c||{};const pats=[['press','לחיצה בשכיבה'],['incline','לחיצה בשיפוע'],['fly','פרפר'],['mpress','לחיצה במכונה'],['cross','קרוס אובר'],['pushup','שכיבות סמיכה'],['pulldown','משיכה מלמעלה'],['crow','חתירה בכבל'],['dbrow','חתירה ביד אחת'],['bentrow','חתירה בהטיה'],['csrow','חתירה על ספסל משופע'],['ohp','לחיצת כתפיים'],['lateral','הרחקה לצדדים'],['front','הרמה קדמית'],['upright','חתירה אנכית'],['shrug','משיכות כתפיים'],['curl','כפיפת מרפקים'],['ccurl','כפיפה בכבל'],['pushdown','פשיטה בכבל'],['overhead','פשיטה מעל הראש'],['skull','סקל קראשר'],['kickback','קיקבק'],['dip','מקבילים'],['squat','סקוואט'],['lunge','לאנג׳'],['bulgarian','בולגרי'],['stepup','עלייה על ספסל'],['rdl','דדליפט רומני'],['bridge','גשר ישבן'],['legext','פשיטת ברכיים'],['legcurl','כפיפת ברכיים'],['calf','תאומים'],['kickglute','בעיטת ישבן'],['crunch','כפיפות בטן'],['legraise','הרמות רגליים'],['plank','פלאנק'],['twist','טוויסט'],['woodchop','חוטב עצים'],['deadbug','דד באג']];
  openSheet(`<div class="sh-top"><h1>${c.id?'עריכת תרגיל':'תרגיל חדש'}</h1><button class="pillbtn" data-act="closesheet">חזרה</button></div>
  <form id="exf" class="form" data-id="${c.id||''}">
  <label class="wide">שם התרגיל<input id="x-he" required value="${esc(c.he||'')}" placeholder="לדוגמה: לחיצת רצפה במשקולות"></label>
