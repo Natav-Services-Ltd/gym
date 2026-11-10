@@ -216,7 +216,50 @@ nav.tabs a .dot{position:absolute;top:4px;inset-inline-start:calc(50% + 8px);wid
 .bmap{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:320px;margin:4px auto 0;width:100%;padding:14px 10px 10px;border-radius:20px;background:radial-gradient(70% 60% at 50% 40%,rgba(47,123,255,.14),transparent 70%)}
 .bmap figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:2px}
 .bmap svg{width:100%;height:auto}
+
+.bmap svg{max-height:340px}
 .bmap figcaption{font-size:.72rem;color:#c9d6f5;letter-spacing:.02em;border:1px solid #23396f;background:rgba(10,20,46,.7);border-radius:999px;padding:2px 12px;margin-top:6px}
+.an-body{fill:url(#anBody);stroke:#1a1f2b;stroke-width:.8}
+.an-dec{fill:#3d4454;stroke:#1d2230;stroke-width:.5}
+.an-m{fill:url(#anMus);stroke:#1c212d;stroke-width:.7;stroke-linejoin:round;transition:filter .2s}
+.an-on{filter:url(#bmGlow);stroke:rgba(255,255,255,.4)}
+.an-fib{fill:url(#anFib);pointer-events:none}
+.an-sheen{fill:url(#bmSheen);pointer-events:none}
+.an-line{stroke:#151a24;stroke-width:1;fill:none;opacity:.8}
+.an-m[data-act]{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.an-sel{stroke:#fff;stroke-width:1.8;animation:anPulse 1.4s ease-in-out infinite}
+@keyframes anPulse{50%{stroke-opacity:.35}}
+@media (prefers-reduced-motion:reduce){.an-sel{animation:none}}
+.mmcard{gap:14px}
+.mmfigs{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:10px 4px 4px;border-radius:20px;background:radial-gradient(70% 55% at 50% 40%,rgba(47,123,255,.16),transparent 72%)}
+.mmfigs figure{margin:0;display:flex;flex-direction:column;align-items:center}
+.mmfigs svg{width:100%;height:auto;max-height:62vh;touch-action:manipulation}
+.mmfigs figcaption{font-size:.78rem;color:#c9d6f5;border:1px solid #23396f;background:rgba(10,20,46,.7);border-radius:999px;padding:3px 14px;margin-top:4px}
+.mmgroups{display:grid;grid-template-columns:repeat(auto-fit,minmax(76px,1fr));gap:8px}
+.mmg{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px;border-radius:14px;border:1.5px solid #18357a;background:#050a17;font-size:.8rem;font-weight:600;color:var(--ink);min-width:0}
+.mmg[aria-pressed="true"]{border-color:var(--accent2);box-shadow:0 0 14px rgba(56,140,255,.45)}
+.mmg .mmi{width:48px;height:48px;display:grid;place-items:center;overflow:hidden}
+.mmg .mmi svg{max-width:48px;max-height:48px;width:auto;height:48px}
+.mmg span:last-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.mminfo{background:rgba(4,10,26,.75);border:1.5px solid #1d3f8f;border-radius:18px;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.mmstats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.mmstats div{background:#0b1631;border:1px solid #1d3f8f;border-radius:12px;padding:8px 4px;text-align:center}
+.mmstats b{display:block;font-family:var(--display);font-size:1.15rem}
+.mmstats span{font-size:.66rem;color:var(--muted)}
+.mminfo td{white-space:nowrap}
+.mrole{font-size:.72rem;border-radius:999px;padding:1px 8px;border:1px solid}
+.mrole.pri{color:#ff8a80;border-color:#7a1f1a;background:#2a0a0a}.mrole.sec{color:#ffc46b;border-color:#7a5212;background:#2a1c06}
+.lv{font-size:.8rem;font-weight:700;border-radius:999px;padding:3px 12px;white-space:nowrap}
+.lv-h{background:linear-gradient(135deg,#ff6a4d,#b3121f);color:#fff}.lv-m{background:linear-gradient(135deg,#ffb347,#f27a1a);color:#2a1400}.lv-l{background:linear-gradient(135deg,#ffe36b,#f2c21a);color:#2a2200}.lv-n{background:#3a4152;color:#cfd6e4}
+.mmlegend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.78rem;color:var(--muted)}
+.mmlegend i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-inline-end:6px;vertical-align:-2px}
+.mmsum{display:flex;flex-direction:column;gap:2px;background:#0b1631;border:1px solid #1d3f8f;border-radius:14px;padding:10px 12px;font-size:.92rem}
+.mmsum span:first-child{font-weight:700}
+.mmlist{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.mmrow{display:grid;grid-template-columns:22px 1fr auto;gap:8px;align-items:center;text-align:start;border:1px solid #18357a;background:#050a17;border-radius:12px;padding:7px 9px;font-size:.88rem;color:var(--ink)}
+.mmrow[aria-pressed="true"]{border-color:var(--accent2)}
+.mmrow .ck{width:20px;height:20px;border-radius:6px;display:grid;place-items:center;font-style:normal;font-weight:800;font-size:.75rem}
+@media (max-width:380px){.mmlist{grid-template-columns:1fr}}
 .bm-m{fill:#24324f;stroke:#33477a;stroke-width:.7;stroke-linejoin:round}
 .bm-act{filter:url(#bmGlow);stroke:rgba(255,255,255,.35);stroke-width:.6;stroke-linejoin:round}
 .mlist{display:flex;flex-wrap:wrap;gap:6px}
@@ -274,6 +317,12 @@ nav.tabs a .dot{position:absolute;top:4px;inset-inline-start:calc(50% + 8px);wid
 <linearGradient id="bmSec" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffc56b"/><stop offset="1" stop-color="#ff8a3d"/></linearGradient>
 <linearGradient id="bmOk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6ff0b4"/><stop offset="1" stop-color="#1fb978"/></linearGradient>
 <linearGradient id="bmSheen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".28"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<linearGradient id="lvH" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff6a4d"/><stop offset=".6" stop-color="#ef2b2b"/><stop offset="1" stop-color="#b3121f"/></linearGradient>
+<linearGradient id="lvM" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb347"/><stop offset="1" stop-color="#f27a1a"/></linearGradient>
+<linearGradient id="lvL" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe36b"/><stop offset="1" stop-color="#f2c21a"/></linearGradient>
+<linearGradient id="anBody" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4a5163"/><stop offset="1" stop-color="#2a303d"/></linearGradient>
+<linearGradient id="anMus" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a93a6"/><stop offset=".5" stop-color="#5e6679"/><stop offset="1" stop-color="#434a5a"/></linearGradient>
+<pattern id="anFib" width="2.6" height="2.6" patternUnits="userSpaceOnUse" patternTransform="rotate(72)"><line x1="0" y1="0" x2="0" y2="2.6" stroke="#0b0f18" stroke-opacity=".22" stroke-width=".7"/></pattern>
 <filter id="bmGlow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
 <filter id="glw" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
 </defs></svg>
@@ -436,7 +485,7 @@ const MORE=[
  X('mt-ohext','פשיטה מעל הראש בכבל','overhead cable triceps extension','triceps','i',['mt'],'overhead','w','יד אחורית (ראש ארוך)',['גב לכבל, חבל מאחורי הראש','פשוט קדימה ומעלה','חזור עד מתיחה'],['מרפקים נפתחים','קשת בגב'],[['triceps'],[]]),
  X('db-skull','סקל קראשר במשקולות','dumbbell skull crusher','triceps','i',['bench','db'],'skull','w','יד אחורית',['שכב, ידיים ישרות מעל הכתפיים','כופף מרפקים והורד ליד הראש','פשוט חזרה'],['מרפקים זזים','ירידה מהירה'],[['triceps'],[]]),
  X('bench-dip','מקבילים על ספסל','bench dips','triceps','c',['bench','bw'],'dip','bw','יד אחורית, חזה',['ידיים על קצה הספסל מאחוריך','רד עד זווית של 90° במרפקים','דחוף חזרה'],['ירידה עמוקה מדי לכתף','הרחקת הגוף מהספסל'],[['triceps'],['chest','delts_f']]),
- X('db-sumo','סקוואט סומו','dumbbell sumo squat','legs','c',['db'],'squat','w','ישבן, מקרבים, ארבע ראשי',['פיסוק רחב, אצבעות החוצה','רד אנכית עם משקולת בין הרגליים','דחוף דרך העקבים'],['ברכיים קורסות פנימה','נטייה קדימה'],[['glutes','quads'],['hams']]),
+ X('db-sumo','סקוואט סומו','dumbbell sumo squat','legs','c',['db'],'squat','w','ישבן, מקרבים, ארבע ראשי',['פיסוק רחב, אצבעות החוצה','רד אנכית עם משקולת בין הרגליים','דחוף דרך העקבים'],['ברכיים קורסות פנימה','נטייה קדימה'],[['glutes','quads','adductors'],['hams']]),
  X('db-revlunge','לאנג׳ים לאחור','dumbbell reverse lunge','legs','c',['db'],'lunge','w','ישבן, ארבע ראשי',['צעד ארוך לאחור','רד עד שהברך האחורית כמעט נוגעת','חזור בדחיפה מהרגל הקדמית'],['צעד קצר','גב מתעגל'],[['glutes','quads'],['hams']]),
  X('mt-legext1','פשיטת ברכיים ברגל אחת','single leg extension','legs','i',['mt'],'legext','w','ארבע ראשי',['רגל אחת בכל פעם','פשוט והחזק שנייה','הורד לאט'],['תנופה','הרמת אגן'],[['quads'],[]]),
  X('db-slrdl','דדליפט רומני ברגל אחת','single leg romanian deadlift','legs','c',['db'],'rdl','w','המסטרינג, ישבן, יציבות',['עמוד על רגל אחת, ברך רכה','הטה קדימה כשהרגל השנייה עולה לאחור','חזור בכיווץ ישבן'],['סיבוב האגן','עיגול גב'],[['hams','glutes'],['lowback']]),
@@ -454,13 +503,13 @@ const MORE=[
 ];
 const BASE_N=EX.length+MORE.length;
 EX.push(...MORE);MORE.forEach(e=>EXM[e.id]=e);
-const MUS={chest:'חזה',delts_f:'כתף קדמית',delts_s:'כתף אמצעית',delts_r:'כתף אחורית',biceps:'יד קדמית',triceps:'יד אחורית',forearms:'אמות',abs:'בטן ישרה',obliques:'אלכסוניים',traps:'טרפז',lats:'רחב גבי',midback:'גב אמצעי',lowback:'גב תחתון',glutes:'ישבן',quads:'ארבע ראשי',hams:'המסטרינג',calves:'תאומים'};
+const MUS={chest:'חזה',delts_f:'כתף קדמית',delts_s:'כתף אמצעית',delts_r:'כתף אחורית',biceps:'יד קדמית',triceps:'יד אחורית',forearms:'אמות',abs:'בטן ישרה',obliques:'אלכסוניים',traps:'טרפז',lats:'רחב גבי',midback:'גב אמצעי',lowback:'גב תחתון',glutes:'ישבן',quads:'ארבע ראשי',hams:'המסטרינג',calves:'תאומים',adductors:'מקרבים'};
 const MU={'db-bench':[['chest'],['delts_f','triceps']],'db-incline':[['chest','delts_f'],['triceps']],'db-fly':[['chest'],['delts_f']],'mt-chest':[['chest'],['triceps','delts_f']],'mt-cross':[['chest'],['delts_f']],'pushup':[['chest'],['triceps','delts_f','abs']],'db-pullover':[['chest','lats'],['triceps']],
  'mt-pulldown':[['lats'],['biceps','midback']],'mt-row':[['midback','lats'],['biceps','delts_r']],'db-row':[['lats','midback'],['biceps','delts_r']],'mt-straight':[['lats'],['triceps']],'mt-facepull':[['delts_r','traps'],['midback']],
  'db-ohp':[['delts_f','delts_s'],['triceps','traps']],'db-lateral':[['delts_s'],['traps']],'db-front':[['delts_f'],[]],'db-rear':[['delts_r'],['midback','traps']],
  'db-curl':[['biceps'],['forearms']],'db-hammer':[['biceps','forearms'],[]],'mt-curl':[['biceps'],['forearms']],'db-conc':[['biceps'],[]],
  'mt-pushdown':[['triceps'],[]],'db-overhead':[['triceps'],[]],'db-kick':[['triceps'],[]],'pushup-close':[['triceps','chest'],['delts_f']],
- 'db-goblet':[['quads','glutes'],['abs']],'db-lunge':[['quads','glutes'],['hams']],'db-bulg':[['quads','glutes'],['hams']],'db-step':[['quads','glutes'],['hams']],'mt-legext':[['quads'],[]],'mt-legcurl':[['hams'],[]],'db-rdl':[['hams','glutes'],['lowback']],'db-bridge':[['glutes'],['hams']],'db-calf':[['calves'],[]],
+ 'db-goblet':[['quads','glutes'],['abs']],'db-lunge':[['quads','glutes'],['hams','adductors']],'db-bulg':[['quads','glutes'],['hams','adductors']],'db-step':[['quads','glutes'],['hams']],'mt-legext':[['quads'],[]],'mt-legcurl':[['hams'],[]],'db-rdl':[['hams','glutes'],['lowback']],'db-bridge':[['glutes'],['hams']],'db-calf':[['calves'],[]],
  'crunch':[['abs'],[]],'plank':[['abs'],['obliques','lowback']],'leg-raise':[['abs'],[]],'twist':[['obliques','abs'],[]],'mt-crunch':[['abs'],[]],'mountain':[['abs'],['delts_f','quads']]};
 EX.forEach(e=>{if(!e.mu)e.mu=MU[e.id]||[[],[]];});
 function syncCustom(){EX.length=BASE_N;Object.keys(EXM).forEach(k=>{if(k.startsWith('my-'))delete EXM[k];});(S.settings.custom||[]).forEach(c=>{const e=Object.assign({k:'i',type:'w',eq:['db'],p:'curl',cues:[],err:[],mus:'',en:c.he,mu:[[],[]]},c);EX.push(e);EXM[e.id]=e;});}
@@ -475,21 +524,93 @@ const BM_SIL=(()=>{const C=(a,b,r1,r2)=>`<path class="bm-sil" d="${capsule(a,b,r
  return side(false)+side(true)+'<path class="bm-sil" d="M38 44 Q60 37 82 44 Q90 50 88 62 L84 122 Q60 132 36 122 L32 62 Q30 50 38 44 Z"/><rect class="bm-sil" x="54" y="32" width="12" height="10"/><ellipse class="bm-sil" cx="60" cy="22" rx="12" ry="14"/>';})();
 const BM={front:[['delts_f delts_s','e',33,57,8,9,0,1],['chest','p','M60 50 Q47 47 40 57 Q41 73 59 72 Z',1],['biceps','e',29,82,5,12,12,1],['forearms','e',24,118,4.5,14,8,1],['abs','r',52,76,16,42,5,0],['obliques','e',45,100,5,14,0,1],['quads','e',49,160,9,26,4,1],['calves','e',46.5,212,5.5,17,0,1]],
  back:[['traps','p','M60 40 L75 50 L60 72 L45 50 Z',0],['delts_r delts_s','e',33,57,8,9,0,1],['triceps','e',29,83,5,12,12,1],['forearms','e',24,118,4.5,14,8,1],['lats','p','M45 62 Q38 86 49 112 L58 98 L57 66 Z',1],['midback','e',60,82,6.5,12,0,0],['lowback','r',52,104,16,18,5,0],['glutes','e',50,138,11,11,0,1],['hams','e',49,172,8.5,22,3,1],['calves','e',47,212,7,15,0,1]]};
-const BM_HALF='M100 62 L91 62 Q90 74 82 79 Q66 84 55 92 Q44 100 42 118 Q39 140 37 160 Q34 180 32 198 Q27 224 24 248 Q22 260 22 270 Q16 282 20 292 Q28 296 31 284 Q32 272 35 260 Q43 232 47 210 Q50 192 52 176 Q55 158 57 142 L59 132 Q61 160 62 182 Q64 200 62 214 Q59 228 61 240 Q58 266 61 292 Q64 318 66 340 Q63 362 66 382 L68 396 Q58 404 60 410 Q74 414 86 410 Q88 402 86 394 Q89 370 87 345 Q91 316 95 290 Q98 272 100 264 Z';
-const BMD={front:[['delts_f delts_s','M64 94 Q50 94 45 108 Q42 122 46 132 Q54 124 60 117 Q60 104 64 94 Z'],['chest','M99 92 Q80 87 65 96 Q57 108 61 122 Q78 132 99 126 Z'],['biceps','M46 137 Q42 152 42 168 Q45 181 51 184 Q56 170 56 151 Q54 139 46 137 Z'],['forearms','M41 196 Q35 216 31 240 Q30 251 34 255 Q42 236 46 214 Q48 202 44 194 Z'],
- ['abs','M88 134 h10 a2 2 0 0 1 2 2 v15 h-14 v-15 a2 2 0 0 1 2 -2 Z M86 155 h14 v17 h-14 Z M86 176 h14 v17 h-14 Z M86 197 h14 v20 a4 4 0 0 1 -4 4 h-6 a4 4 0 0 1 -4 -4 Z'],['obliques','M83 136 Q71 140 65 150 Q64 180 67 208 Q75 214 83 212 Q81 172 83 136 Z'],['quads','M65 246 Q60 280 64 318 Q71 334 83 333 Q91 300 94 272 Q90 252 80 244 Z'],['calves','M70 352 Q66 370 70 388 L76 388 Q80 370 79 352 Z']],
- back:[['traps','M100 64 Q88 72 72 86 Q88 98 100 134 Z'],['delts_r delts_s','M67 91 Q51 93 45 107 Q43 122 47 131 Q58 117 71 104 Z'],['triceps','M46 137 Q41 152 42 171 Q45 183 51 184 Q56 166 55 149 Q53 139 46 137 Z'],['forearms','M41 196 Q35 216 31 240 Q30 251 34 255 Q42 236 46 214 Q48 202 44 194 Z'],
- ['lats','M73 108 Q62 130 64 162 Q70 190 88 204 Q92 176 90 150 Q86 124 73 108 Z'],['midback','M100 98 Q87 106 83 121 Q90 140 100 151 Z'],['lowback','M100 160 Q91 168 91 198 Q93 214 100 219 Z'],['glutes','M100 226 Q78 221 66 236 Q61 256 69 270 Q86 279 100 271 Z'],['hams','M67 277 Q61 302 65 330 Q73 342 84 340 Q90 310 94 283 Q84 274 67 277 Z'],['calves','M69 346 Q61 362 66 381 Q72 387 80 381 Q84 362 80 346 Z']]};
+/* ===================== ANATOMY (original SVG, left half mirrored) ===================== */
+const ANAT_SIL='M100 60 L91 60 C90 70 88 76 80 80 C70 84 60 86 54 90 C42 96 37 108 37 122 C36 136 35 150 34 162 C33 176 31 188 30 198 C27 216 24 236 22 252 C21 260 20 266 21 272 C15 280 14 292 19 298 C24 302 30 296 31 288 C32 280 33 274 35 266 C38 252 42 232 45 214 C47 204 49 196 50 188 C52 172 54 158 56 146 C57 140 58 136 59 132 C61 150 63 168 64 184 C65 198 64 210 63 220 C62 232 60 244 59 256 C58 274 58 292 61 308 C63 320 65 330 66 338 C64 352 62 366 63 380 C64 392 66 402 67 410 C62 418 58 424 62 428 C70 431 80 431 86 428 C88 420 87 412 86 406 C87 392 88 376 87 362 C88 350 89 342 89 336 C92 316 95 296 96 280 C97 268 99 260 100 256 Z';
+const ANAT_HEAD='M100 10 C87 10 81 21 81 34 C81 46 88 56 100 60 C112 56 119 46 119 34 C119 21 113 10 100 10 Z';
+const ANAT={
+ front:{decor:['M92 56 C93 65 96 73 99 80 L96 81 C93 74 90 66 89 59 Z','M66 140 C70 141 74 144 77 148 C73 149 69 147 65 145 Z','M65 150 C69 151 73 154 76 158 C72 159 68 157 64 155 Z','M68 254 C76 270 84 292 90 318 L88 320 C82 294 74 272 66 258 Z','M78 336 C84 336 88 342 88 348 C84 352 76 352 72 348 C72 342 74 337 78 336 Z','M76 352 C78 366 78 382 76 398 L73 398 C72 382 72 366 74 352 Z'],
+  mus:[['traps','M90 62 C88 72 82 78 74 82 C82 82 90 80 96 78 Z'],['delts_s','M68 85 C56 86 44 94 40 108 C38 118 39 128 42 136 C46 128 50 118 54 108 C56 98 62 90 68 85 Z'],['delts_f','M70 86 C62 88 56 96 54 108 C54 116 56 122 58 126 C62 116 66 106 74 98 C74 94 73 90 70 86 Z'],
+   ['chest','M98 86 C88 84 78 85 72 90 C70 96 70 102 72 106 C82 102 92 100 98 100 Z'],['chest','M98 102 C90 102 80 105 72 109 C66 116 64 126 68 134 C76 142 90 142 98 138 Z'],
+   ['biceps','M54 128 C48 134 44 146 43 160 C43 172 46 182 50 188 C55 180 57 166 57 152 C57 142 56 134 54 128 Z'],['forearms','M44 192 C38 204 33 222 30 240 C29 250 29 258 31 264 C36 250 41 232 45 216 C47 206 47 198 44 192 Z'],['forearms','M48 196 C47 210 44 226 40 244 C38 254 36 260 35 266 C40 254 45 238 48 222 C50 210 50 202 48 196 Z'],
+   ['abs','M88 146 C92 145 96 145 99 146 L99 162 L87 162 C86 156 86 150 88 146 Z'],['abs','M87 166 L99 166 L99 182 L86 182 C85 176 86 170 87 166 Z'],['abs','M86 186 L99 186 L99 202 L86 202 C85 196 85 190 86 186 Z'],['abs','M86 206 L99 206 L99 240 C94 238 90 230 88 222 C86 216 86 210 86 206 Z'],
+   ['obliques','M84 146 C78 150 72 156 68 164 C66 180 66 196 68 210 C72 220 78 228 84 232 C83 214 83 196 84 180 C84 168 84 156 84 146 Z'],
+   ['quads','M62 262 C58 280 58 300 61 316 C64 326 68 332 72 334 C70 318 70 300 72 282 C72 272 68 264 62 262 Z'],['quads','M74 260 C70 276 70 298 73 318 C76 326 80 330 84 330 C86 314 86 296 84 278 C82 268 78 262 74 260 Z'],['quads','M86 300 C88 312 88 322 86 332 C82 336 78 336 76 334 C80 330 83 322 84 312 C85 306 85 302 86 300 Z'],
+   ['adductors','M88 254 C92 262 95 274 95 288 C94 296 91 302 87 306 C86 290 84 274 82 262 C84 258 86 256 88 254 Z'],
+   ['calves','M68 352 C65 366 65 382 68 396 C71 394 72 380 72 366 C72 358 71 354 68 352 Z'],['calves','M84 356 C87 368 87 380 85 392 C82 386 80 372 80 360 Z']]},
+ back:{decor:['M78 338 C84 338 88 342 88 346 C84 348 76 348 72 346 C72 342 74 339 78 338 Z','M78 390 C80 398 82 404 84 408 L80 408 C78 402 76 396 76 390 Z'],
+  mus:[['lowback','M98 160 C92 168 90 184 90 200 C90 214 94 226 98 234 L100 236 L100 160 Z'],['midback','M84 100 C76 102 70 106 66 112 C68 120 74 126 82 128 C86 120 88 110 84 100 Z'],
+   ['lats','M66 118 C62 134 62 152 64 168 C68 190 78 208 92 222 C96 214 96 200 94 186 C90 170 86 154 84 140 C80 132 74 124 66 118 Z'],
+   ['traps','M100 60 C96 66 92 72 84 78 C76 82 70 86 66 90 C76 96 86 108 92 126 C95 136 98 146 100 152 Z'],
+   ['delts_s','M68 85 C56 86 44 94 40 108 C38 118 39 128 42 136 C46 128 50 118 54 108 C56 98 62 90 68 85 Z'],['delts_r','M68 88 C58 90 50 98 46 110 C44 120 46 128 48 132 C54 122 60 112 68 104 C70 98 70 92 68 88 Z'],
+   ['triceps','M44 128 C40 140 38 154 38 168 C40 176 42 182 44 186 C44 172 45 156 48 140 Z'],['triceps','M50 132 C46 144 44 158 44 170 C45 180 48 188 52 192 C56 182 58 168 58 154 C57 144 55 136 50 132 Z'],
+   ['forearms','M42 194 C36 208 31 226 28 244 C27 254 28 262 30 266 C36 250 42 232 46 214 C48 206 47 198 42 194 Z'],['forearms','M48 198 C47 212 44 228 40 246 C38 254 37 260 36 266 C41 254 46 238 49 222 C50 212 50 204 48 198 Z'],
+   ['glutes','M62 236 C58 244 58 252 60 258 C64 250 70 244 78 240 C72 236 66 234 62 236 Z'],['glutes','M98 238 C88 234 76 236 68 244 C62 254 62 268 66 280 C74 290 88 292 98 288 Z'],
+   ['hams','M64 290 C60 306 60 322 64 336 C68 340 72 340 76 336 C76 322 76 306 74 292 Z'],['hams','M78 292 C80 308 82 322 82 334 C86 336 90 334 92 330 C94 316 94 302 92 290 C88 292 82 292 78 292 Z'],
+   ['calves','M66 348 C62 360 62 374 66 386 C70 388 74 384 76 378 C76 366 74 354 70 346 Z'],['calves','M78 346 C76 360 76 374 80 388 C84 390 88 384 88 376 C89 364 86 352 80 346 Z']]}};
+const MUSX={chest:'Pectoralis major',delts_f:'Anterior deltoid',delts_s:'Lateral deltoid',delts_r:'Posterior deltoid',biceps:'Biceps brachii',triceps:'Triceps brachii',forearms:'Forearm flexors & extensors',abs:'Rectus abdominis',obliques:'External obliques',traps:'Trapezius',lats:'Latissimus dorsi',midback:'Rhomboids & teres',lowback:'Erector spinae',glutes:'Gluteus maximus & medius',quads:'Quadriceps',hams:'Hamstrings',calves:'Gastrocnemius & soleus',adductors:'Adductors'};
 const MIR=' transform="translate(200 0) scale(-1 1)"';
-function bodySVG(side,colorOf,small){const head=`<ellipse cx="100" cy="36" rx="17" ry="21" fill="url(#bmBody)"/>`;
- const sil=`<path d="${BM_HALF}" fill="url(#bmBody)"/><path d="${BM_HALF}" fill="url(#bmBody)"${MIR}/>`;
- let mus='';BMD[side].forEach(([keys,d])=>{const c=keys.split(' ').map(colorOf).find(Boolean);
-  const one=t=>c?`<path d="${d}" fill="${c}" class="bm-act"${t}/><path d="${d}" fill="url(#bmSheen)"${t} style="pointer-events:none"/>`:`<path d="${d}" class="bm-m"${t}/>`;mus+=one('')+one(MIR);});
- const lines=side==='front'?'<path d="M100 92 V126 M100 134 V222" stroke="#0a1120" stroke-width="1.2" fill="none" opacity=".8"/>':'<path d="M100 66 V222" stroke="#0a1120" stroke-width="1.2" fill="none" opacity=".6"/>';
- return `<svg viewBox="${typeof small==='string'?small:'12 6 176 412'}" ${small?'':`role="img" aria-label="${side==='front'?'מלפנים':'מאחור'}"`}>${head}${sil}${mus}${lines}</svg>`;}
-function bodyMap(colorOf){return `<div class="bmap"><figure>${bodySVG('front',colorOf)}<figcaption>מלפנים</figcaption></figure><figure>${bodySVG('back',colorOf)}<figcaption>מאחור</figcaption></figure></div>`;}
-const targetColor=(pri,sec)=>m=>pri.includes(m)?'url(#bmPri)':sec.includes(m)?'url(#bmSec)':null;
-const recColor=rec=>m=>{const p=rec[m];return p>=95?null:p<50?'url(#bmPri)':p<80?'url(#bmSec)':'url(#bmOk)';};
+// opts: {vb, interactive, sel:Set}
+function bodySVG(side,colorOf,small,opts){opts=opts||{};const vb=opts.vb||(typeof small==='string'?small:'10 4 180 432');const A=ANAT[side];const sel=opts.sel||new Set();
+ const half=t=>`<path d="${ANAT_SIL}" class="an-body"${t}/>`;
+ let h=`<path d="${ANAT_HEAD}" class="an-body"/>${half('')}${half(MIR)}`;
+ A.decor.forEach(d=>{h+=`<path d="${d}" class="an-dec"/><path d="${d}" class="an-dec"${MIR}/>`;});
+ A.mus.forEach(([id,d])=>{const c=colorOf(id);const on=sel.has(id);const ia=opts.interactive?` data-act="mm" data-m="${id}"`:'';
+  [ '',MIR ].forEach(t=>{h+=`<path d="${d}" class="an-m${c?' an-on':''}${on?' an-sel':''}"${c?` style="fill:${c}"`:''}${ia}${t}/><path d="${d}" class="an-fib"${t}/>`;if(c)h+=`<path d="${d}" class="an-sheen"${t}/>`;});});
+ h+=side==='front'?'<path d="M100 86 V140 M100 146 V240" class="an-line"/>':'<path d="M100 62 V236" class="an-line"/>';
+ return `<svg viewBox="${vb}" ${small?'aria-hidden="true"':`role="img" aria-label="${side==='front'?'מבט קדמי':'מבט אחורי'}"`}>${h}</svg>`;}
+function bodyMap(colorOf){return `<div class="bmap"><figure>${bodySVG('front',colorOf)}<figcaption>מקדימה</figcaption></figure><figure>${bodySVG('back',colorOf)}<figcaption>מאחור</figcaption></figure></div>`;}
+/* ---- training load per muscle, from saved sets only ---- */
+const MM_T={last:[4,2],active:[4,2],7:[10,5],30:[36,16]};
+const MM_GROUPS=[['chest','חזה',['chest'],'f'],['back','גב',['lats','midback','traps','lowback'],'b'],['shoulders','כתפיים',['delts_f','delts_s','delts_r'],'f'],['biceps','יד קדמית',['biceps','forearms'],'f'],['triceps','יד אחורית',['triceps'],'b'],['core','בטן',['abs','obliques'],'f'],['legs','רגליים',['quads','hams','glutes','calves','adductors'],'f']];
+function muscleLoad(period){let sess=[];const act=S.active&&doneSets(S.active)?S.active:null;
+ if(period==='active')sess=act?[act]:[];
+ else if(period==='last'){if(act)sess=[act];else{const l=sorted().find(x=>x.type==='strength'&&doneSets(x));if(l)sess=[l];}}
+ else{const since=Date.now()-(+period)*864e5;sess=S.sessions.filter(x=>x.type==='strength'&&(x.start||0)>=since);if(act)sess=sess.concat([act]);}
+ const M={};
+ sess.forEach(x=>(x.items||[]).forEach(it=>{const e=EXM[it.ex];if(!e)return;const d=(it.sets||[]).filter(z=>z.done);if(!d.length)return;
+  const vol=d.reduce((a,z)=>a+(+z.w||0)*(+z.r||0),0),reps=d.reduce((a,z)=>a+(+z.r||0),0),when=x.end||x.start||Date.now();
+  const add=(m,role)=>{const o=M[m]=M[m]||{pri:0,sec:0,vol:0,reps:0,last:0,ex:{}};o[role]+=d.length;o.vol+=role==='pri'?vol:vol/2;o.reps+=reps;o.last=Math.max(o.last,when);
+   const xe=o.ex[it.ex]=o.ex[it.ex]||{sets:0,vol:0,role,last:0};xe.sets+=d.length;xe.vol+=vol;xe.last=Math.max(xe.last,when);if(role==='pri')xe.role='pri';};
+  e.mu[0].forEach(m=>add(m,'pri'));e.mu[1].forEach(m=>add(m,'sec'));}));
+ return{M,sess};}
+const effSets=o=>o?o.pri+o.sec*0.5:0;
+function mmLevel(o,period){const e=effSets(o);if(!e)return 0;const t=MM_T[period]||MM_T.last;return e>=t[0]?3:e>=t[1]?2:1;}
+const LV_FILL=['','url(#lvL)','url(#lvM)','url(#lvH)'],LV_HE=['לא אומן','עומס נמוך','עומס בינוני','עומס גבוה'],LV_CLS=['n','l','m','h'];
+const loadColor=(L,period)=>m=>LV_FILL[mmLevel(L.M[m],period)]||null;
+function muscleMapCard(){const st=UI.mm=UI.mm||{period:'last',sel:null};const P=st.period;const L=muscleLoad(P);
+ const selIds=!st.sel?[]:st.sel.startsWith('g:')?(MM_GROUPS.find(g=>g[0]===st.sel.slice(2))||[,,[]])[2]:[st.sel];const sel=new Set(selIds);
+ const per=[['last','אימון אחרון'],['7','7 ימים'],['30','30 ימים']];
+ const tr=Object.keys(MUS).filter(m=>L.M[m]).sort((a,b)=>effSets(L.M[b])-effSets(L.M[a]));
+ // info panel
+ let info='';
+ if(!selIds.length)info=`<p class="muted small" style="margin:0">הקש על שריר במפה או על קבוצה למטה כדי לראות תרגילים, סטים, נפח ותאריך אחרון.</p>`;
+ else{const agg={pri:0,sec:0,vol:0,reps:0,last:0,ex:{}};selIds.forEach(m=>{const o=L.M[m];if(!o)return;agg.pri+=o.pri;agg.sec+=o.sec;agg.vol+=o.vol;agg.reps+=o.reps;agg.last=Math.max(agg.last,o.last);Object.entries(o.ex).forEach(([k,v])=>{const z=agg.ex[k]=agg.ex[k]||{sets:0,vol:0,role:v.role,last:0};z.sets=Math.max(z.sets,v.sets);z.vol=Math.max(z.vol,v.vol);z.last=Math.max(z.last,v.last);if(v.role==='pri')z.role='pri';});});
+  {const xs=Object.values(agg.ex);agg.pri=xs.filter(v=>v.role==='pri').reduce((q,v)=>q+v.sets,0);agg.sec=xs.filter(v=>v.role!=='pri').reduce((q,v)=>q+v.sets,0);agg.vol=xs.reduce((q,v)=>q+(v.role==='pri'?v.vol:v.vol/2),0);}
+  const isG=st.sel.startsWith('g:');const g=isG&&MM_GROUPS.find(x=>x[0]===st.sel.slice(2));const lv=isG?Math.max(0,...selIds.map(m=>mmLevel(L.M[m],P))):mmLevel(L.M[selIds[0]],P);
+  const name=isG?g[1]:MUS[selIds[0]];const en=isG?selIds.map(m=>MUSX[m]).join(' · '):MUSX[selIds[0]];
+  info=`<div class="row between" style="align-items:flex-start"><div><h3 style="font-size:1.2rem">${esc(name)}</h3><div class="small muted" dir="ltr" style="text-align:right">${esc(en)}</div></div><span class="lv lv-${LV_CLS[lv]}">${LV_HE[lv]}</span></div>`;
+  if(!agg.pri&&!agg.sec)info+=`<p class="muted" style="margin:0">לא נרשמו סטים לשריר הזה ${P==='last'?'באימון האחרון':`ב-${P} הימים האחרונים`}.</p>`;
+  else{const ex=Object.entries(agg.ex).sort((a,b)=>b[1].sets-a[1].sets);
+   info+=`<div class="mmstats"><div><b class="num">${agg.pri}</b><span>סטים ראשיים</span></div><div><b class="num">${agg.sec}</b><span>סטים משניים</span></div><div><b class="num">${Math.round(agg.vol).toLocaleString('he-IL')}</b><span>נפח (ק״ג)</span></div><div><b class="num">${heDate(dstr(new Date(agg.last)),{day:'numeric',month:'numeric'})}</b><span>אימון אחרון</span></div></div>
+   <table class="t">${ex.map(([k,v])=>`<tr><th>${esc(EXM[k]?EXM[k].he:k)}</th><td><span class="mrole ${v.role}">${v.role==='pri'?'ראשי':'משני'}</span></td><td class="num">${v.sets} סטים</td><td class="num">${Math.round(v.vol).toLocaleString('he-IL')} ק״ג</td></tr>`).join('')}</table>`;}}
+ // summary
+ let sum='';
+ if(!L.sess.length)sum=`<p class="muted small" style="margin:0">${P==='last'?'עוד אין אימון כוח שמור. אחרי שתסמן סטים באימון, המפה תתעדכן כאן.':'לא נשמרו אימוני כוח בתקופה הזו.'}</p>`;
+ else if(P==='last'){const x=L.sess[0];const live=x===S.active;sum=`<div class="mmsum"><span>${live?'אימון פעיל עכשיו':esc((x.areas||[]).map(a=>AREA_HE[a]).join(', ')||'אימון כוח')}</span><span>${heDate(x.date,{day:'numeric',month:'long'})} · ${new Date(x.start).toTimeString().slice(0,5)}</span><span>${Math.max(1,Math.round(((x.end||Date.now())-x.start)/60000))} דקות · ${doneSets(x)} סטים · ${Math.round(volOf(x)).toLocaleString('he-IL')} ק״ג</span></div>`;}
+ else{const sets=L.sess.reduce((a,x)=>a+doneSets(x),0),vol=L.sess.reduce((a,x)=>a+volOf(x),0);sum=`<div class="mmsum"><span>${L.sess.length} אימוני כוח ב-${P} ימים</span><span>${sets} סטים · ${Math.round(vol).toLocaleString('he-IL')} ק״ג נפח</span></div>`;}
+ const t=MM_T[P];
+ return `<section class="card mmcard" id="mmcard"><div><h2 style="font-size:1.5rem">מפת שרירים</h2><div class="small muted">אזורי עבודה לפי הסטים ששמרת בפועל</div></div>
+ <div class="seg" role="tablist">${per.map(([k,v])=>`<button data-act="mmper" data-v="${k}" aria-pressed="${P===k}">${v}</button>`).join('')}</div>
+ <div class="mmfigs"><figure>${bodySVG('front',loadColor(L,P),false,{interactive:true,sel})}<figcaption>מקדימה</figcaption></figure><figure>${bodySVG('back',loadColor(L,P),false,{interactive:true,sel})}<figcaption>מאחור</figcaption></figure></div>
+ <div class="mmgroups">${MM_GROUPS.map(([k,v,mus,side])=>{const lv=Math.max(0,...mus.map(m=>mmLevel(L.M[m],P)));return `<button class="mmg lvb-${LV_CLS[lv]}" data-act="mmgrp" data-v="${k}" aria-pressed="${st.sel==='g:'+k}"><span class="mmi">${miniBody(mus,side==='b'?'b':'f',L,P)}</span><span>${v}</span></button>`;}).join('')}</div>
+ <div class="mminfo" aria-live="polite">${info}</div>
+ <div class="mmlegend"><span><i class="lv-h"></i>גבוה (${t[0]}+ סטים)</span><span><i class="lv-m"></i>בינוני (${t[1]}–${t[0]-0.5})</span><span><i class="lv-l"></i>נמוך</span><span><i class="lv-n"></i>לא אומן</span></div>
+ <div class="label">${P==='last'?'סיכום אימון אחרון':'סיכום תקופה'}</div>${sum}
+ <div class="label">קבוצות שרירים</div><div class="mmlist">${Object.keys(MUS).map(m=>{const o=L.M[m];const lv=mmLevel(o,P);return `<button class="mmrow" data-act="mm" data-m="${m}" aria-pressed="${st.sel===m}"><i class="ck lv-${LV_CLS[lv]}">${lv?'✓':''}</i><span>${MUS[m]}</span><span class="num muted small">${o?`${o.pri}${o.sec?` + ${o.sec} משני`:''} סטים`:''}</span></button>`;}).join('')}</div>
+ <p class="small muted" style="margin:0">סט ראשי נספר כ-1 וסט משני כ-0.5. נפח לשריר משני מחושב בחצי. מבוסס רק על סטים מסומנים ✓, כולל האימון הפעיל.</p></section>`;}
+function renderMM(){const el=$('#mmcard');if(!el)return;el.outerHTML=muscleMapCard();}
+const targetColor=(pri,sec)=>m=>pri.includes(m)?'url(#lvH)':sec.includes(m)?'url(#lvM)':null;
+const recColor=rec=>m=>{const p=rec[m];return p>=95?null:p<50?'url(#lvH)':p<80?'url(#lvM)':'url(#bmOk)';};
 function draftMuscles(items){const p=new Set(),q=new Set();items.forEach(id=>{const e=EXM[id];if(!e)return;e.mu[0].forEach(m=>p.add(m));e.mu[1].forEach(m=>q.add(m));});return[[...p],[...q].filter(m=>!p.has(m))];}
 const CARDIO={
  run:{he:'ריצה בחוץ',p:'run',plans:[
@@ -821,7 +942,8 @@ function vWorkout(){const a=S.active;if(!a)return `<div class="top"><h1>אימו
     <label class="fld"><input id="r-${i}-${j}" inputmode="numeric" data-f="r" data-i="${i}" data-s="${j}" value="${s.r}" placeholder="${s.tr||it.range[1]}" aria-label="${unit} סט ${j+1}"><span>${unit}</span></label>
     <button class="chk" data-act="done" data-i="${i}" data-s="${j}" aria-pressed="${!!s.done}" aria-label="סמן סט ${j+1} כבוצע">✓</button></div>`).join('')}</div>
    <div class="row"><button class="btn sm" data-act="addset" data-i="${i}">+ סט</button><button class="btn sm" data-act="rmset" data-i="${i}">− סט</button><button class="btn sm" data-act="adj" data-i="${i}" data-d="-1">קל יותר</button><button class="btn sm" data-act="adj" data-i="${i}" data-d="1">כבד יותר</button><button class="btn sm ghost" data-act="swap" data-i="${i}">החלף תרגיל</button><button class="btn sm ghost danger" data-act="rmex" data-i="${i}">הסר</button></div></article>`;});
- h+=`<section class="card"><button class="btn block" data-act="addex">+ הוסף תרגיל</button><label class="label" for="wnote">הערות לאימון</label><textarea id="wnote" class="full" rows="2" data-f="note" placeholder="איך הרגשת, כאבים, ציוד…">${esc(a.note||'')}</textarea><div class="row"><button class="btn primary" data-act="finish" style="flex:1">סיים ושמור</button><button class="btn danger" data-act="discard">בטל אימון</button></div></section>`;
+ h+=`${doneSets(a)?`<section class="card"><div class="row between"><h2>שרירים שעבדו עד עכשיו</h2><button class="btn sm" data-act="nav" data-to="stats">מפה מלאה</button></div>${(()=>{const L=muscleLoad('active');return bodyMap(loadColor(L,'active'));})()}</section>`:''}
+ <section class="card"><button class="btn block" data-act="addex">+ הוסף תרגיל</button><label class="label" for="wnote">הערות לאימון</label><textarea id="wnote" class="full" rows="2" data-f="note" placeholder="איך הרגשת, כאבים, ציוד…">${esc(a.note||'')}</textarea><div class="row"><button class="btn primary" data-act="finish" style="flex:1">סיים ושמור</button><button class="btn danger" data-act="discard">בטל אימון</button></div></section>`;
  return h;}
 
 function vLibrary(){const q=UI.q.trim();const favs=S.settings.favs||[];const list=EX.filter(e=>(UI.lib==='all'||(UI.lib==='fav'?favs.includes(e.id):e.a===UI.lib))&&(!q||e.he.includes(q)||e.en.includes(q.toLowerCase())));
@@ -839,6 +961,7 @@ function vStats(){const ss=sorted();const ws=weekStart(new Date()).getTime();con
  for(let i=0;i<84;i++){const d=new Date(start);d.setDate(start.getDate()+i);const k=dstr(d);const b=byDay[k]||{};const fut=d>new Date();cells+=`<i class="${b.strength&&b.cardio?'b':b.strength?'s':b.cardio?'c':''} ${fut?'f':''}" title="${k}"></i>`;}
  let h=`<div class="top"><div><div class="eyebrow">השבוע מיום ראשון</div><h1>אנליטיקס</h1></div>${syncPill()}</div>
  <div class="tiles"><div class="tile"><b class="num">${str}</b><span>אימוני כוח</span></div><div class="tile"><b class="num">${car.length}</b><span>אימוני קרדיו</span></div><div class="tile"><b class="num">${km.toFixed(1)}</b><span>ק״מ ריצה והליכון</span></div><div class="tile"><b class="num">${mins}</b><span>דקות אימון</span></div></div>
+ ${muscleMapCard()}
  ${recCard()}
  <section class="card"><h2>12 השבועות האחרונים</h2><div class="heat" aria-label="מפת פעילות">${cells}</div><div class="legend"><span><i style="background:var(--accent)"></i>כוח</span><span><i style="background:var(--heat)"></i>קרדיו</span><span><i style="background:linear-gradient(135deg,var(--accent) 50%,var(--heat) 50%)"></i>שניהם</span></div></section>`;
  // progress chart
@@ -967,7 +1090,7 @@ async function aiFill(){const name=$('#x-he').value.trim();const out=$('#x-ai');
 /* ===================== PLAN QUESTIONNAIRE ===================== */
 const Q={open:false,step:0,a:null};
 const QFOCUS=[['chest','חזה',['chest'],'f'],['shoulders','כתפיים',['delts_f','delts_s'],'f'],['arms','ידיים',['biceps','forearms'],'f'],['core','בטן',['abs','obliques'],'f'],['back','גב',['lats','midback','traps'],'b'],['legs','רגליים',['quads','hams','glutes'],'f']];
-function miniBody(mus,side){const vb=mus.includes('quads')?'40 230 120 140':mus.includes('abs')?'50 110 100 100':mus.includes('biceps')?'22 84 156 120':'34 50 132 120';return bodySVG(side==='b'?'back':'front',m=>mus.includes(m)?'url(#bmPri)':null,vb);}
+function miniBody(mus,side,L,P){const vb=mus.includes('quads')?'52 250 96 170':mus.includes('abs')?'60 136 80 110':mus.includes('biceps')||mus.includes('triceps')?'24 96 152 110':mus.includes('lats')?'48 60 104 180':mus.includes('delts_f')?'30 72 140 70':'56 76 88 72';const col=L?(m=>mus.includes(m)?(LV_FILL[mmLevel(L.M[m],P)]||null):null):(m=>mus.includes(m)?'url(#lvH)':null);return bodySVG(side==='b'?'back':'front',col,true,{vb});}
 function qDefaults(){const p=S.settings.q;return p?JSON.parse(JSON.stringify(p)):{level:'mid',cardio:3,ckinds:['run','tread','spin'],goal:S.settings.goal==='endure'?'cut':'build',days:3,dur:+S.settings.dur>=60?60:+S.settings.dur<=30?30:45,focus:['chest','back','shoulders'],split:'auto'};}
 function openQ(){Q.open=true;Q.step=0;Q.a=qDefaults();renderQ();}
 function closeQ(){Q.open=false;$('#qz').innerHTML='';}
@@ -1100,6 +1223,9 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(
  case 'restx':UI.rest=null;renderRest();break;
  case 'exinfo':exInfo(t.dataset.ex);break;
  case 'openq':openQ();break;
+ case 'mm':{UI.mm=UI.mm||{period:'last'};const m=t.dataset.m;UI.mm.sel=UI.mm.sel===m?null:m;renderMM();break;}
+ case 'mmgrp':{UI.mm=UI.mm||{period:'last'};const g='g:'+t.dataset.v;UI.mm.sel=UI.mm.sel===g?null:g;renderMM();break;}
+ case 'mmper':UI.mm=UI.mm||{};UI.mm.period=t.dataset.v;renderMM();break;
  case 'qlevel':case 'qcardio':case 'qck':case 'qgoal':case 'qdays':case 'qdur':case 'qfocus':case 'qsplit':case 'qnext':case 'qback':case 'qclose':case 'qsave':qAct(A,t.dataset.v);break;
  case 'newex':exForm();break;
  case 'editex':exForm((S.settings.custom||[]).find(c=>c.id===t.dataset.id));break;
