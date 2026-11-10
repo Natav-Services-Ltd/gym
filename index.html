@@ -303,6 +303,14 @@ nav.tabs a .dot{position:absolute;top:4px;inset-inline-start:calc(50% + 8px);wid
 .vwrap{position:relative;width:100%;aspect-ratio:16/9;border-radius:18px;overflow:hidden;border:1.5px solid var(--glow);box-shadow:0 0 26px rgba(31,107,255,.3);background:#000}
 .vwrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .playov{position:absolute;inset-inline-end:18px;bottom:18px;width:56px;height:56px;border-radius:50%;border:1.5px solid #fff;background:rgba(31,107,255,.85);color:#fff;font-size:1.3rem;box-shadow:0 0 22px rgba(31,107,255,.7)}
+.pav{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;color:#fff;font-weight:800;font-family:var(--display);font-size:.95rem;flex:none;box-shadow:0 0 12px rgba(0,0,0,.35)}
+.pav.big{width:52px;height:52px;font-size:1.5rem}
+.pill .pav{width:20px;height:20px;font-size:.7rem}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px}
+.pcard{display:flex;flex-direction:column;align-items:center;gap:8px;padding:18px 10px;border-radius:22px;border:1.5px solid var(--glow);background:linear-gradient(160deg,var(--card2),var(--card));color:var(--ink);box-shadow:0 0 20px rgba(31,107,255,.18)}
+.pcard b{font-size:1.05rem}
+.pcard.add{border-style:dashed}
+.chip.pcol[aria-pressed="true"]{outline:3px solid #fff;outline-offset:2px}
 .toast{position:fixed;top:calc(12px + env(safe-area-inset-top));inset-inline:0;margin:auto;width:max-content;max-width:90%;z-index:60;background:var(--card2);border:1px solid var(--accent2);border-radius:14px;padding:10px 16px;font-weight:600}
 .empty{text-align:center;color:var(--muted);padding:20px 10px}
 @media (min-width:560px){.tiles{grid-template-columns:repeat(4,1fr)}.ex-top{grid-template-columns:180px 1fr}}
@@ -814,7 +822,7 @@ let lastF=0,prevT=0;function loop(ts){const dt=prevT?Math.min(0.1,(ts-prevT)/100
 requestAnimationFrame(loop);
 
 /* ===================== STATE & STORAGE ===================== */
-const LS='gymlog.v1';
+let LS='gymlog.v1';
 let S={settings:JSON.parse(JSON.stringify(DEF)),sessions:[],active:null};
 let DB=null,UID=null,SYNC='local';
 const UI={draft:null,selDay:null,lib:'all',q:'',metric:'1rm',range:28,ex:'',rest:null,audio:null};
@@ -826,6 +834,44 @@ function saveSettings(){saveLocal();dbPut('settings',S.settings);}
 let actT=null;function saveActive(now){saveLocal();clearTimeout(actT);const f=()=>dbPut('active',S.active?{w:S.active}:null);if(now)f();else actT=setTimeout(f,900);}
 function saveSession(s){saveLocal();dbPut('s-'+s.id,s);}
 function delSession(id){S.sessions=S.sessions.filter(s=>s.id!==id);saveLocal();dbPut('s-'+id,null);}
+/* ===================== LOCAL PROFILES (website, per device) ===================== */
+const PROF_KEY='gym.profiles',CUR_KEY='gym.cur';
+const lsGet=(k,d)=>{try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v);}catch(e){return d;}};
+const lsSet=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}};
+let PROFILES=[],CURP=null;
+async function pinHash(id,pin){const b=new TextEncoder().encode(id+':'+pin);if(crypto.subtle){const h=await crypto.subtle.digest('SHA-256',b);return [...new Uint8Array(h)].map(x=>x.toString(16).padStart(2,'0')).join('');}return String(hash(id+pin));}
+function useLocalProfiles(){return !window.claude&&!(SUPA.url&&SUPA.key);}
+function initProfiles(){if(!useLocalProfiles())return;PROFILES=lsGet(PROF_KEY,[]);
+ if(!PROFILES.length){PROFILES=[{id:'p1',name:'משתמש ראשי',key:'gymlog.v1',pin:null,color:0}];lsSet(PROF_KEY,PROFILES);lsSet(CUR_KEY,'p1');}
+ const cur=lsGet(CUR_KEY,null);const p=PROFILES.find(x=>x.id===cur);
+ if(p&&!p.pin&&PROFILES.length===1){switchProfile(p.id,true);return;}
+ if(p&&!p.pin&&!lsGet('gym.askeach',false)){switchProfile(p.id,true);return;}
+ setTimeout(pickProfile,0);}
+function switchProfile(id,silent){const p=PROFILES.find(x=>x.id===id);if(!p)return;if(CURP&&CURP.id!==id)saveLocal();CURP=p;LS=p.key;lsSet(CUR_KEY,id);
+ S={settings:JSON.parse(JSON.stringify(DEF)),sessions:[],active:null};UI.draft=null;UI.mm=null;UI.rest=null;loadLocal();syncCustom();closeSheet();render();if(!silent)toast('שלום '+p.name);}
+const PCOL=['#2f6bff','#22a6c2','#ff7a59','#9b6bff','#2fd27a','#f2c21a','#ff4d8d'];
+const avatar=(p,big)=>`<span class="pav${big?' big':''}" style="background:${PCOL[(p.color||0)%PCOL.length]}">${esc((p.name||'?').trim().slice(0,1))}</span>`;
+function pickProfile(){openSheet(`<div class="sh-top"><h1>מי מתאמן?</h1></div>
+ <div class="pgrid">${PROFILES.map(p=>`<button class="pcard" data-act="ppick" data-v="${p.id}">${avatar(p,true)}<b>${esc(p.name)}</b>${p.pin?'<span class="small muted">🔒 קוד</span>':''}</button>`).join('')}<button class="pcard add" data-act="pnew">${'<span class="pav big" style="background:#18357a">+</span>'}<b>משתמש חדש</b></button></div>
+ <p class="small muted" style="margin:0">כל משתמש מקבל אימונים, תוכנית והיסטוריה משלו. הנתונים נשמרים במכשיר הזה בלבד.</p>`,'full');}
+function profileForm(p){openSheet(`<div class="sh-top"><h1>${p?'עריכת משתמש':'משתמש חדש'}</h1><button class="pillbtn" data-act="${PROFILES.length&&CURP?'closesheet':'pback'}">חזרה</button></div>
+ <form id="pform" class="form" data-id="${p?p.id:''}"><label class="wide">שם<input id="pf-name" required maxlength="24" value="${esc(p?p.name:'')}" placeholder="לדוגמה: אילן"></label>
+ <label class="wide">קוד אישי (4 ספרות, לא חובה)<input id="pf-pin" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="off" placeholder="${p&&p.pin?'השאר ריק כדי לשמור את הקוד הקיים':'בלי קוד'}" dir="ltr"></label>
+ ${p&&p.pin?'<label class="wide" style="flex-direction:row;align-items:center;gap:8px"><input type="checkbox" id="pf-nopin" style="width:auto">הסר את הקוד</label>':''}
+ <div class="wide"><div class="label">צבע</div><div class="chips">${PCOL.map((c,i)=>`<button type="button" class="chip pcol" data-act="pcol" data-v="${i}" aria-pressed="${(p?p.color||0:PROFILES.length%PCOL.length)===i}" style="background:${c};min-width:40px" aria-label="צבע ${i+1}"></button>`).join('')}</div></div>
+ <button class="btn primary wide" type="submit">${p?'שמור':'צור משתמש'}</button>${p&&PROFILES.length>1?`<button type="button" class="btn danger wide" data-act="pdel" data-v="${p.id}">מחק את המשתמש ואת כל האימונים שלו</button>`:''}</form>
+ <p class="small muted" style="margin:0">הקוד מונע כניסה בטעות לפרופיל של מישהו אחר. הוא לא הצפנה: מי שיש לו גישה למכשיר יכול לגשת לנתונים.</p>`,'full');}
+async function saveProfileForm(){const f=$('#pform');const id=f.dataset.id;const name=$('#pf-name').value.trim();const pin=$('#pf-pin').value.trim();if(!name){toast('צריך שם');return;}
+ if(pin&&!/^\d{4}$/.test(pin)){toast('הקוד צריך להיות 4 ספרות');return;}const colBtn=f.querySelector('[data-act="pcol"][aria-pressed="true"]');const color=colBtn?+colBtn.dataset.v:0;
+ if(id){const p=PROFILES.find(x=>x.id===id);p.name=name;p.color=color;if($('#pf-nopin')&&$('#pf-nopin').checked)p.pin=null;else if(pin)p.pin=await pinHash(id,pin);lsSet(PROF_KEY,PROFILES);if(CURP&&CURP.id===id)CURP=p;closeSheet();render();toast('נשמר');}
+ else{const nid='p'+uid();const p={id:nid,name,key:'gymlog.p.'+nid,pin:pin?await pinHash(nid,pin):null,color};PROFILES.push(p);lsSet(PROF_KEY,PROFILES);switchProfile(nid);setTimeout(openQ,300);}}
+function pinPrompt(p){openSheet(`<div class="sh-top"><h1>${avatar(p)} ${esc(p.name)}</h1><button class="pillbtn" data-act="pback">חזרה</button></div>
+ <form id="pinf" class="form" data-id="${p.id}"><label class="wide">קוד אישי<input id="pin-in" inputmode="numeric" maxlength="4" autocomplete="off" dir="ltr" style="font-size:1.6rem;letter-spacing:.5em;text-align:center"></label><button class="btn primary wide" type="submit">כניסה</button><p class="wide small" id="pin-msg" style="margin:0;color:#ff8a80"></p></form>`,'full');setTimeout(()=>{const i=$('#pin-in');i&&i.focus();},50);}
+function profileCard(){if(!useLocalProfiles()||!CURP)return '';
+ return `<section class="card"><h2>משתמש</h2><div class="row between"><div class="row">${avatar(CURP,true)}<div><b>${esc(CURP.name)}</b><div class="small muted">${PROFILES.length} משתמשים במכשיר הזה${CURP.pin?' · מוגן בקוד':''}</div></div></div></div>
+ <div class="two"><button class="btn primary" data-act="pswitch">החלף משתמש</button><button class="btn" data-act="pedit">ערוך פרטים וקוד</button></div>
+ <label class="row small muted" style="gap:8px"><input type="checkbox" id="pf-askeach" ${lsGet('gym.askeach',false)?'checked':''} style="width:auto">לשאול "מי מתאמן?" בכל פתיחה</label></section>`;}
+
 /* ===================== ACCOUNTS (Supabase, website only) ===================== */
 const SUPA={url:'',key:''}; // project URL + public anon key (safe in the browser; rows are protected by RLS)
 let SB=null,SBUSER=null;const sbChains={};
@@ -881,7 +927,7 @@ async function initCloud(){
  }catch(e){console.warn(e);setSync('local');}
 }
 function setSync(s){SYNC=s;const el=document.getElementById('sync');if(el)el.outerHTML=syncPill();}
-const syncPill=()=>`<span id="sync" class="pill ${SYNC==='cloud'||SYNC==='supa'?'on':''}">${SYNC==='supa'?'מחובר · '+esc((SBUSER&&SBUSER.email||'').split('@')[0]):SYNC==='cloud'?'מסונכרן לחשבון':SYNC==='wait'?'ממתין לחיבור…':'נשמר במכשיר'}</span>`;
+const syncPill=()=>CURP&&useLocalProfiles()?`<button id="sync" class="pill" data-act="pswitch" style="cursor:pointer">${avatar(CURP)} ${esc(CURP.name)}</button>`:`<span id="sync" class="pill ${SYNC==='cloud'||SYNC==='supa'?'on':''}">${SYNC==='supa'?'מחובר · '+esc((SBUSER&&SBUSER.email||'').split('@')[0]):SYNC==='cloud'?'מסונכרן לחשבון':SYNC==='wait'?'ממתין לחיבור…':'נשמר במכשיר'}</span>`;
 
 /* ===================== HELPERS ===================== */
 const $=s=>document.querySelector(s);
@@ -1041,7 +1087,7 @@ function progChart(exId,metric,days){const sr=series(exId,metric,days);const uni
  <svg class="chart" viewBox="0 0 ${W} ${H}" direction="ltr">${g}<polygon points="${area}" fill="var(--accent)" opacity=".18"/><polyline points="${line}" fill="none" stroke="var(--accent2)" stroke-width="2.5" stroke-linejoin="round"/>${sr.map((p,i)=>`<circle cx="${X(i)}" cy="${Y(p.v)}" r="${i===sr.length-1?5:3}" fill="${i===sr.length-1?'var(--heat)':'var(--accent2)'}"/>`).join('')}<text x="${pl}" y="${H-6}">${heDate(first.d,{day:'numeric',month:'numeric'})}</text><text x="${W-pr}" y="${H-6}" text-anchor="end">${heDate(last.d,{day:'numeric',month:'numeric'})}</text></svg>`;}
 
 function vPrefs(){const s=S.settings;return `<div class="top"><div><div class="eyebrow">הגדרות ונתונים</div><h1>פרופיל</h1></div>${syncPill()}</div>
- ${accountCard()}<section class="card"><h2>אימון</h2><div class="form">
+ ${profileCard()}${accountCard()}<section class="card"><h2>אימון</h2><div class="form">
  <label>דופק מרבי (מהשעון)<input id="p-maxHr" inputmode="numeric" data-f="set" data-k="maxHr" value="${esc(s.maxHr)}"></label>
  <label>קפיצת משקל במשקולות יד (ק״ג)<input id="p-db" inputmode="decimal" data-f="set" data-k="dbInc" value="${esc(s.dbInc)}"></label>
  <label>קפיצת משקל במולטי טריינר (ק״ג)<input id="p-mt" inputmode="decimal" data-f="set" data-k="mtInc" value="${esc(s.mtInc)}"></label>
@@ -1283,6 +1329,14 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(
  case 'restx':UI.rest=null;renderRest();break;
  case 'exinfo':exInfo(t.dataset.ex);break;
  case 'openq':openQ();break;
+ case 'ppick':{const p=PROFILES.find(x=>x.id===t.dataset.v);if(p.pin)pinPrompt(p);else switchProfile(p.id);break;}
+ case 'pnew':profileForm(null);break;
+ case 'pback':pickProfile();break;
+ case 'pswitch':saveLocal();pickProfile();break;
+ case 'pedit':profileForm(CURP);break;
+ case 'pcol':t.parentElement.querySelectorAll('[data-act="pcol"]').forEach(b=>b.setAttribute('aria-pressed',String(b===t)));break;
+ case 'pdel':dialog('למחוק את המשתמש?','כל האימונים, ההגדרות והתוכנית של המשתמש הזה יימחקו מהמכשיר לצמיתות.',`<button class="btn danger" data-act="pdelok" data-v="${t.dataset.v}">מחק</button>`);break;
+ case 'pdelok':{const id=t.dataset.v;const p=PROFILES.find(x=>x.id===id);try{localStorage.removeItem(p.key);}catch(e){}PROFILES=PROFILES.filter(x=>x.id!==id);lsSet(PROF_KEY,PROFILES);CURP=null;switchProfile(PROFILES[0].id,true);pickProfile();break;}
  case 'authopen':openAuth(t.dataset.v);break;
  case 'authmode':openAuth(t.dataset.v);break;
  case 'authreset':authReset();break;
@@ -1308,7 +1362,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(
  case 'fav':{const f=S.settings.favs=S.settings.favs||[];const id=t.dataset.ex;const k=f.indexOf(id);if(k>=0)f.splice(k,1);else f.push(id);saveSettings();exInfo(id);if(route()==='library')render();break;}
  case 'share':{const ex=EXM[t.dataset.ex];const p=perfs(ex.id)[0];const txt=`${ex.he}\n${ex.cues.map((c,i)=>(i+1)+'. '+c).join('\n')}${p?`\nאחרון (${p.date}): ${p.sets.map(s=>(+s.w?fmtW(s.w)+'×':'')+s.r).join(', ')}`:''}\nhttps://www.youtube.com/results?search_query=${encodeURIComponent(ex.en+' proper form')}`;navigator.clipboard.writeText(txt).then(()=>toast('הועתק. אפשר להדביק בוואטסאפ'),()=>toast('ההעתקה נחסמה בדפדפן'));break;}
  case 'figplay':case 'figspeed':{const sv=document.querySelector('#sheet svg[data-ctl]');const en=sv&&FIGS.get(sv);if(!en)break;if(A==='figplay'){en.paused=!en.paused;t.textContent=en.paused?'המשך':'השהה';}else{en.speed=en.speed===1?0.5:en.speed===0.5?0.25:1;t.textContent='מהירות '+en.speed+'×';}break;}
- case 'closesheet':closeSheet();break;
+ case 'closesheet':if(useLocalProfiles()&&!CURP)break;closeSheet();break;
  case 'lib':UI.lib=t.dataset.a;render();break;
  case 'metric':UI.metric=t.dataset.m;render();break;
  case 'range':UI.range=+t.dataset.v;render();break;
@@ -1332,7 +1386,7 @@ document.addEventListener('input',e=>{const t=e.target;const f=t.dataset&&t.data
  else if(f==='libq'){UI.q=t.value;const pos=t.selectionStart;render();const n=$('#libq');n.focus();try{n.setSelectionRange(pos,pos);}catch(_){}}
  else if(f==='plan'){S.settings.plan[+t.dataset.i].l=t.value;clearTimeout(e.target._t);e.target._t=setTimeout(saveSettings,600);}
 });
-document.addEventListener('change',e=>{const t=e.target;const f=t.dataset&&t.dataset.f;
+document.addEventListener('change',e=>{const t=e.target;if(t.id==='pf-askeach'){lsSet('gym.askeach',t.checked);return;}const f=t.dataset&&t.dataset.f;
  if(t.id==='garmin'||t.id==='garmin2'){const file=t.files[0];if(file){const rd=new FileReader();rd.onload=()=>importGarmin(String(rd.result));rd.readAsText(file);}t.value='';return;}
  if(t.id==='c-plan'){const c=CARDIO[$('#cform').dataset.kind];const p=c.plans.find(x=>x.id===t.value);$('#c-desc').textContent=p?p.d:'';if(p)$('#c-dur').value=p.dur;calcCardio();return;}
  if(!f)return;
@@ -1341,14 +1395,16 @@ document.addEventListener('change',e=>{const t=e.target;const f=t.dataset&&t.dat
  else if(f==='exsel'){UI.ex=t.value;render();}
  else if(f==='vid'){const v=t.value.trim();if(v&&!/^https?:\/\//.test(v)){toast('הקישור צריך להתחיל ב-https://');return;}if(v)S.settings.videos[t.dataset.ex]=v;else delete S.settings.videos[t.dataset.ex];saveSettings();toast('הקישור נשמר');}
 });
-document.addEventListener('submit',e=>{if(e.target.id==='authf'){e.preventDefault();doAuth(e.target.dataset.mode);return;}if(e.target.id==='exf'){e.preventDefault();const c=readExForm();if(!c.he){toast('צריך שם לתרגיל');return;}if(!c.mu[0].length)c.mu[0]=[{chest:'chest',back:'lats',shoulders:'delts_s',biceps:'biceps',triceps:'triceps',legs:'quads',core:'abs'}[c.a]];if(!c.eq.length)c.eq=['bw'];const L=S.settings.custom=S.settings.custom||[];const k=L.findIndex(x=>x.id===c.id);if(k>=0)L[k]=c;else L.push(c);saveSettings();syncCustom();closeSheet();UI.lib=c.a;go('library');toast('התרגיל נשמר ונכנס לבניית האימונים');return;}
+document.addEventListener('submit',e=>{if(e.target.id==='pform'){e.preventDefault();saveProfileForm();return;}
+ if(e.target.id==='pinf'){e.preventDefault();(async()=>{const id=e.target.dataset.id;const p=PROFILES.find(x=>x.id===id);const h=await pinHash(id,$('#pin-in').value.trim());if(h===p.pin)switchProfile(id);else{$('#pin-msg').textContent='קוד שגוי';$('#pin-in').value='';}})();return;}
+ if(e.target.id==='authf'){e.preventDefault();doAuth(e.target.dataset.mode);return;}if(e.target.id==='exf'){e.preventDefault();const c=readExForm();if(!c.he){toast('צריך שם לתרגיל');return;}if(!c.mu[0].length)c.mu[0]=[{chest:'chest',back:'lats',shoulders:'delts_s',biceps:'biceps',triceps:'triceps',legs:'quads',core:'abs'}[c.a]];if(!c.eq.length)c.eq=['bw'];const L=S.settings.custom=S.settings.custom||[];const k=L.findIndex(x=>x.id===c.id);if(k>=0)L[k]=c;else L.push(c);saveSettings();syncCustom();closeSheet();UI.lib=c.a;go('library');toast('התרגיל נשמר ונכנס לבניית האימונים');return;}
  if(e.target.id==='chatf'){e.preventDefault();const v=$('#chatin').value;aiAsk(v);return;}if(e.target.id!=='cform')return;e.preventDefault();const kind=e.target.dataset.kind;const c=CARDIO[kind];const date=$('#c-date').value||today();const pl=c.plans.find(p=>p.id===$('#c-plan').value);
  const s={id:uid(),type:'cardio',kind,source:'manual',date,start:new Date(date+'T'+(date===today()?new Date().toTimeString().slice(0,5):'12:00')).getTime(),durMin:numv($('#c-dur').value),distKm:numv($('#c-dist').value),kcal:numv($('#c-kcal').value)||'',avgHr:numv($('#c-avg').value)||'',maxHr:numv($('#c-max').value)||'',rpe:+$('#c-rpe').value,plan:pl?pl.he:'',note:$('#c-note').value};
  if(!s.durMin){toast('הזן משך אימון בדקות');return;}S.sessions.push(s);saveSession(s);closeSheet();toast(`${c.he} נשמר${s.distKm?`: ${s.distKm} ק״מ`:''}`);render();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSheet();if(Q.open)closeQ();}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!(useLocalProfiles()&&!CURP))closeSheet();if(Q.open)closeQ();}});
 window.addEventListener('hashchange',()=>{closeSheet();render();window.scrollTo(0,0);});
 
-loadLocal();syncCustom();render();initCloud();
+if(useLocalProfiles())initProfiles();else{loadLocal();syncCustom();render();}initCloud();
 if('serviceWorker' in navigator&&location.protocol==='https:'&&!window.claude){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
 </script>
 </body>
