@@ -248,7 +248,7 @@ function muscleMapCard(){const st=UI.mm=UI.mm||{period:'last',sel:null};const P=
  const tr=Object.keys(MUS).filter(m=>L.M[m]).sort((a,b)=>effSets(L.M[b])-effSets(L.M[a]));
  // info panel
  let info='';
- if(!selIds.length)info=`<p class="muted small" style="margin:0">הקש על שריר במפה או על קבוצה למטה כדי לראות תרגילים, סטים, נפח ותאריך אחרון.</p>`;
+ if(!selIds.length)info=`<p style="margin:0">לחץ על קבוצת שרירים להצגת פרטים</p>`;
  else{const agg={pri:0,sec:0,vol:0,reps:0,last:0,ex:{}};selIds.forEach(m=>{const o=L.M[m];if(!o)return;agg.pri+=o.pri;agg.sec+=o.sec;agg.vol+=o.vol;agg.reps+=o.reps;agg.last=Math.max(agg.last,o.last);Object.entries(o.ex).forEach(([k,v])=>{const z=agg.ex[k]=agg.ex[k]||{sets:0,vol:0,role:v.role,last:0};z.sets=Math.max(z.sets,v.sets);z.vol=Math.max(z.vol,v.vol);z.last=Math.max(z.last,v.last);if(v.role==='pri')z.role='pri';});});
   {const xs=Object.values(agg.ex);agg.pri=xs.filter(v=>v.role==='pri').reduce((q,v)=>q+v.sets,0);agg.sec=xs.filter(v=>v.role!=='pri').reduce((q,v)=>q+v.sets,0);agg.vol=xs.reduce((q,v)=>q+(v.role==='pri'?v.vol:v.vol/2),0);}
   const isG=st.sel.startsWith('g:');const g=isG&&MM_GROUPS.find(x=>x[0]===st.sel.slice(2));const lv=isG?Math.max(0,...selIds.map(m=>mmLevel(L.M[m],P))):mmLevel(L.M[selIds[0]],P);
@@ -264,12 +264,12 @@ function muscleMapCard(){const st=UI.mm=UI.mm||{period:'last',sel:null};const P=
  else if(P==='last'){const x=L.sess[0];const live=x===S.active;sum=`<div class="mmsum"><span>${live?'אימון פעיל עכשיו':esc((x.areas||[]).map(a=>AREA_HE[a]).join(', ')||'אימון כוח')}</span><span>${heDate(x.date,{day:'numeric',month:'long'})} · ${new Date(x.start).toTimeString().slice(0,5)}</span><span>${Math.max(1,Math.round(((x.end||Date.now())-x.start)/60000))} דקות · ${doneSets(x)} סטים · ${Math.round(volOf(x)).toLocaleString('he-IL')} ק״ג</span></div>`;}
  else{const sets=L.sess.reduce((a,x)=>a+doneSets(x),0),vol=L.sess.reduce((a,x)=>a+volOf(x),0);sum=`<div class="mmsum"><span>${L.sess.length} אימוני כוח ב-${P} ימים</span><span>${sets} סטים · ${Math.round(vol).toLocaleString('he-IL')} ק״ג נפח</span></div>`;}
  const t=MM_T[P];
- return `<section class="card mmcard" id="mmcard"><div><h2 style="font-size:1.5rem">מפת שרירים</h2><div class="small muted">אזורי עבודה לפי הסטים ששמרת בפועל</div></div>
- <div class="seg" role="tablist">${per.map(([k,v])=>`<button data-act="mmper" data-v="${k}" aria-pressed="${P===k}">${v}</button>`).join('')}</div>
- <div class="mmfigs"><figure>${bodySVG('front',loadColor(L,P),false,{interactive:true,sel})}<figcaption>מקדימה</figcaption></figure><figure>${bodySVG('back',loadColor(L,P),false,{interactive:true,sel})}<figcaption>מאחור</figcaption></figure></div>
+ return `<section class="mmcard" id="mmcard"><header><h2 class="mmh">מפת שרירים</h2><div class="mmsub">אזורי עבודה ואימון אחרון</div></header>
+ <div class="mmper" role="group" aria-label="תקופה">${per.map(([k,v])=>`<button data-act="mmper" data-v="${k}" aria-pressed="${P===k}">${v}</button>`).join('')}</div>
+ <div class="mmfigs"><figure><figcaption>מקדימה</figcaption>${bodySVG('front',loadColor(L,P),false,{interactive:true,sel})}</figure><figure><figcaption>מאחור</figcaption>${bodySVG('back',loadColor(L,P),false,{interactive:true,sel})}</figure></div>
+ <section class="mmpanel"><h3>רמת עבודה (עומס)</h3><div class="mmlegend"><span><i class="lv-h"></i>גבוהה <small>${t[0]}+ סטים</small></span><span><i class="lv-m"></i>בינונית <small>${t[1]}–${t[0]-0.5}</small></span><span><i class="lv-l"></i>נמוכה</span><span><i class="lv-n"></i>לא אומן</span></div></section>
+ <section class="mmpanel mminfo" aria-live="polite">${info}</section>
  <div class="mmgroups">${MM_GROUPS.map(([k,v,mus,side])=>{const lv=Math.max(0,...mus.map(m=>mmLevel(L.M[m],P)));return `<button class="mmg lvb-${LV_CLS[lv]}" data-act="mmgrp" data-v="${k}" aria-pressed="${st.sel==='g:'+k}"><span class="mmi">${miniBody(mus,side==='b'?'b':'f',L,P)}</span><span>${v}</span></button>`;}).join('')}</div>
- <div class="mminfo" aria-live="polite">${info}</div>
- <div class="mmlegend"><span><i class="lv-h"></i>גבוה (${t[0]}+ סטים)</span><span><i class="lv-m"></i>בינוני (${t[1]}–${t[0]-0.5})</span><span><i class="lv-l"></i>נמוך</span><span><i class="lv-n"></i>לא אומן</span></div>
  <div class="label">${P==='last'?'סיכום אימון אחרון':'סיכום תקופה'}</div>${sum}
  <div class="label">קבוצות שרירים</div><div class="mmlist">${Object.keys(MUS).map(m=>{const o=L.M[m];const lv=mmLevel(o,P);return `<button class="mmrow" data-act="mm" data-m="${m}" aria-pressed="${st.sel===m}"><i class="ck lv-${LV_CLS[lv]}">${lv?'✓':''}</i><span>${MUS[m]}</span><span class="num muted small">${o?`${o.pri}${o.sec?` + ${o.sec} משני`:''} סטים`:''}</span></button>`;}).join('')}</div>
  <p class="small muted" style="margin:0">סט ראשי נספר כ-1 וסט משני כ-0.5. נפח לשריר משני מחושב בחצי. מבוסס רק על סטים מסומנים ✓, כולל האימון הפעיל.</p></section>`;}
